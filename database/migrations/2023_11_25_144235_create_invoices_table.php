@@ -24,7 +24,7 @@ return new class extends Migration
 
             //Link
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('branch_id')->nullable()->constrained('branches')->onDelete('cascade');
+            $table->unsignedBigInteger('branch_id')->nullable();
             $table->foreignId('category_id')->nullable()->constrained('types')->onDelete('cascade');
 
             //Customer Info

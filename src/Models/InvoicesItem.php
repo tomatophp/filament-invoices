@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property float $qty
  * @property float $price
  * @property float $discount
- * @property float $tax
+ * @property float $vat
  * @property float $total
  * @property float $returned_qty
  * @property float $returned
@@ -43,7 +43,7 @@ class InvoicesItem extends Model
         'qty',
         'price',
         'discount',
-        'tax',
+        'vat',
         'total',
         'returned_qty',
         'returned',

@@ -4,6 +4,7 @@ namespace TomatoPHP\FilamentInvoices\Console;
 
 use Illuminate\Console\Command;
 use TomatoPHP\ConsoleHelpers\Traits\RunCommand;
+use TomatoPHP\FilamentInvoices\Facades\FilamentInvoices;
 
 class FilamentInvoicesInstall extends Command
 {
@@ -37,8 +38,12 @@ class FilamentInvoicesInstall extends Command
     public function handle()
     {
         $this->info('Publish Vendor Assets');
+
         $this->artisanCommand(["migrate"]);
         $this->artisanCommand(["optimize:clear"]);
+
+        FilamentInvoices::loadTypes();
+
         $this->info('Filament Invoices installed successfully.');
     }
 }

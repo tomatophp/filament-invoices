@@ -18,6 +18,7 @@ use TomatoPHP\FilamentTypes\Models\Type;
  * @property string $bank_address
  * @property string $bank_branch
  * @property string $bank_name
+ * @property string $shipping
  * @property string $bank_city
  * @property string $bank_country
  * @property boolean $is_bank_transfer
@@ -96,6 +97,7 @@ class Invoice extends Model
         'is_activated',
         'is_offer',
         'send_email',
+        'shipping',
         'notes',
         'created_at',
         'updated_at'
@@ -123,6 +125,32 @@ class Invoice extends Model
     }
 
     /**
+     * @param string $key
+     * @param string|array|object|null $value
+     * @return Model|string|array|null
+     */
+    public function meta(string $key, string|array|object|null $value=null): Model|string|null|array
+    {
+        if($value!==null){
+            if($value === 'null'){
+                return $this->invoiceMetas()->updateOrCreate(['key' => $key], ['value' => null]);
+            }
+            else {
+                return $this->invoiceMetas()->updateOrCreate(['key' => $key], ['value' => $value]);
+            }
+        }
+        else {
+            $meta = $this->invoiceMetas()->where('key', $key)->first();
+            if($meta){
+                return $meta->value;
+            }
+            else {
+                return $this->invoiceMetas()->updateOrCreate(['key' => $key], ['value' => null]);
+            }
+        }
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function category()
@@ -144,5 +172,20 @@ class Invoice extends Model
     public function invoicesItems()
     {
         return $this->hasMany(InvoicesItem::class);
+    }
+
+    public function billedFor()
+    {
+        return $this->morphTo('for', 'for_type', 'for_id');
+    }
+
+    public function billedFrom()
+    {
+        return $this->morphTo('from', 'from_type', 'from_id');
+    }
+
+    public function invoiceLogs()
+    {
+        return $this->hasMany(InvoiceLog::class);
     }
 }

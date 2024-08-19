@@ -1,6 +1,6 @@
 <?php
 
-namespace TomatoPHP\FilamentInvoices\Filament\Resources\InvoiceResource\ResourceManagers;
+namespace TomatoPHP\FilamentInvoices\Filament\Resources\InvoiceResource\RelationManagers;
 
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -10,41 +10,27 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class InvoiceLogManager extends RelationManager
+class InvoicePaymentsManager extends RelationManager
 {
-    protected static string $relationship = 'invoiceLogs';
+    protected static string $relationship = 'invoiceMetas';
 
-    public static function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('invoice_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('type')
-                    ->maxLength(255)
-                    ->default('info'),
-                Forms\Components\TextInput::make('log'),
-            ]);
-    }
+    protected static ?string $title = 'Payments';
 
-    public static function table(Table $table): Table
+    public function table(Table $table): Table
     {
         return $table
+            ->defaultSort('created_at', 'desc')
+            ->modifyQueryUsing(function (Builder $query) {
+                $query->where('key', 'payments');
+            })
             ->columns([
-                Tables\Columns\TextColumn::make('invoice_id')
+                Tables\Columns\TextColumn::make('value')
+                    ->money(locale: 'en')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('type')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //

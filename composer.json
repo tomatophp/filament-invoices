@@ -1,11 +1,16 @@
 {
     "name": "tomatophp/filament-invoices",
     "type": "library",
-    "description": "Generate and manage yours invoices in Filament",
+    "description": "Generate and manage your invoices / payments using multi currencies and multi types in FilamentPHP",
     "keywords": [
         "php",
         "laravel",
-        "template"
+        "invoices",
+        "payments",
+        "filament",
+        "filament-plugin",
+        "tomatophp",
+        "tomato-php"
     ],
     "license": "MIT",
     "autoload": {
@@ -34,6 +39,8 @@
     "require": {
         "php": "^8.1|^8.2",
         "tomatophp/console-helpers": "^1.1",
+        "tomatophp/filament-locations": "^1.0",
+        "tomatophp/filament-types": "^1.0",
         "filament/filament": "^3.0.0"
     }
 }

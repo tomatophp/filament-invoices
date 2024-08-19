@@ -18,6 +18,8 @@ class FilamentInvoicesPlugin implements Plugin
     {
         $panel->resources([
             InvoiceResource::class
+        ])->pages([
+            InvoiceResource\Pages\InvoiceStatus::class
         ]);
     }
 

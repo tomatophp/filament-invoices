@@ -3,6 +3,8 @@
 namespace TomatoPHP\FilamentInvoices;
 
 use Illuminate\Support\ServiceProvider;
+use TomatoPHP\FilamentCms\Facades\FilamentCMS;
+use TomatoPHP\FilamentCms\Services\Contracts\CmsType;
 
 
 class FilamentInvoicesServiceProvider extends ServiceProvider
@@ -52,6 +54,8 @@ class FilamentInvoicesServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        //you boot methods here
+        $this->app->bind('filament-invoices', function() {
+            return new \TomatoPHP\FilamentInvoices\Services\InvoicesServices();
+        });
     }
 }
