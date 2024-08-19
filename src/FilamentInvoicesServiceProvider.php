@@ -1,6 +1,6 @@
 <?php
 
-namespace Tomatophp\FilamentInvoices;
+namespace TomatoPHP\FilamentInvoices;
 
 use Illuminate\Support\ServiceProvider;
 

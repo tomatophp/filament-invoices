@@ -10,7 +10,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Tomatophp\\FilamentInvoices\\": "src/"
+            "TomatoPHP\\FilamentInvoices\\": "src/"
         }
     },
     "autoload-dev": {
@@ -21,7 +21,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Tomatophp\\FilamentInvoices\\FilamentInvoicesServiceProvider"
+                "TomatoPHP\\FilamentInvoices\\FilamentInvoicesServiceProvider"
             ]
         }
     },
