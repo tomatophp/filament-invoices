@@ -1,6 +1,6 @@
 ![Screenshot](https://github.com/tomatophp/filament-invoices/blob/master/arts/3x1io-tomato-invoices.jpg)
 
-# Filament Invoices Generator
+# Filament Invoices Manager
 
 [![Latest Stable Version](https://poser.pugx.org/tomatophp/filament-invoices/version.svg)](https://packagist.org/packages/tomatophp/filament-invoices)
 [![License](https://poser.pugx.org/tomatophp/filament-invoices/license.svg)](https://packagist.org/packages/tomatophp/filament-invoices)

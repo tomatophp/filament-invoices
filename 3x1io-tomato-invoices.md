@@ -1,5 +1,5 @@
 ---
-name: Invoices Generator
+name: Invoices Manager
 slug: 3x1io-tomato-invoices
 author_slug: 3x1io
 categories: [developer-tool]
