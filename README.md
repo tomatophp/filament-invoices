@@ -1,4 +1,4 @@
-![Screenshot](https://github.com/tomatophp/filament-invoices/blob/master/arts/3x1io-tomato-invoices.jpg)
+![Screenshot](https://raw.githubusercontent.com/tomatophp/filament-invoices/master/arts/3x1io-tomato-invoices.jpg)
 
 # Filament Invoices Manager
 
@@ -25,6 +25,18 @@ Generate and manage your invoices / payments using multi currencies and multi ty
 - [ ] Export Invoice as PDF
 - [ ] Invoices Templates
 - [ ] Invoices Settings
+
+## Screenshots
+
+![Home](https://raw.githubusercontent.com/tomatophp/filament-invoices/master/arts/home.png)
+![Create](https://raw.githubusercontent.com/tomatophp/filament-invoices/master/arts/create.png)
+![Edit](https://raw.githubusercontent.com/tomatophp/filament-invoices/master/arts/edit.png)
+![View](https://raw.githubusercontent.com/tomatophp/filament-invoices/master/arts/view.png)
+![Print](https://raw.githubusercontent.com/tomatophp/filament-invoices/master/arts/print.png)
+![Logs](https://raw.githubusercontent.com/tomatophp/filament-invoices/master/arts/logs.png)
+![Status](https://raw.githubusercontent.com/tomatophp/filament-invoices/master/arts/status.png)
+![Payments](https://raw.githubusercontent.com/tomatophp/filament-invoices/master/arts/payments.png)
+![Payment Amount](https://raw.githubusercontent.com/tomatophp/filament-invoices/master/arts/payment-amount.png)
 
 ## Installation
 
