@@ -47,7 +47,6 @@ class InvoiceStatus extends Page implements HasTable
 
     public array $data = [];
 
-
     public function mount(): void
     {
         FilamentInvoices::loadTypes();
@@ -61,12 +60,11 @@ class InvoiceStatus extends Page implements HasTable
                 ->color('danger')
                 ->label(trans('filament-settings-hub::messages.back')),
         ];
-
     }
 
     public function getTitle(): string
     {
-        return trans('filament-ecommerce::messages.settings.status.title');
+        return trans('filament-invoices::messages.settings.status.title');
     }
 
     public function table(Table $table): Table
@@ -82,22 +80,22 @@ class InvoiceStatus extends Page implements HasTable
             ->paginated(false)
             ->columns([
                 TypeColumn::make('key')
-                    ->label(trans('filament-ecommerce::messages.settings.status.columns.status'))
+                    ->label(trans('filament-invoices::messages.settings.status.columns.status'))
             ])
             ->actions([
                 \Filament\Tables\Actions\Action::make('edit')
-                    ->label(trans('filament-ecommerce::messages.settings.status.action.edit'))
-                    ->tooltip(trans('filament-ecommerce::messages.settings.status.action.edit'))
+                    ->label(trans('filament-invoices::messages.settings.status.action.edit'))
+                    ->tooltip(trans('filament-invoices::messages.settings.status.action.edit'))
                     ->form([
                         KeyValue::make('name')
                             ->schema($localsTitle)
-                            ->keyLabel(trans('filament-ecommerce::messages.settings.status.columns.language'))
+                            ->keyLabel(trans('filament-invoices::messages.settings.status.columns.language'))
                             ->editableKeys(false)
                             ->addable(false)
                             ->deletable(false)
-                            ->label(trans('filament-ecommerce::messages.settings.status.columns.value')),
-                        IconPicker::make('icon')->label(trans('filament-ecommerce::messages.settings.status.columns.icon')),
-                        ColorPicker::make('color')->label(trans('filament-ecommerce::messages.settings.status.columns.color')),
+                            ->label(trans('filament-invoices::messages.settings.status.columns.value')),
+                        IconPicker::make('icon')->label(trans('filament-invoices::messages.settings.status.columns.icon')),
+                        ColorPicker::make('color')->label(trans('filament-invoices::messages.settings.status.columns.color')),
                     ])
                     ->fillForm(fn(Type $record) => $record->toArray())
                     ->icon('heroicon-s-pencil-square')
@@ -105,11 +103,10 @@ class InvoiceStatus extends Page implements HasTable
                     ->action(function (array $data, Type $type){
                         $type->update($data);
                         Notification::make()
-                            ->title(trans('filament-ecommerce::messages.settings.status.action.notification'))
+                            ->title(trans('filament-invoices::messages.settings.status.action.notification'))
                             ->success()
                             ->send();
                     })
             ]);
     }
-
 }

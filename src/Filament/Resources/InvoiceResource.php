@@ -39,6 +39,21 @@ class InvoiceResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
 
+    public static function getNavigationLabel(): string
+    {
+        return trans('filament-invoices::messages.invoices.title');
+    }
+
+    public static function getPluralLabel(): ?string
+    {
+        return trans('filament-invoices::messages.invoices.title');
+    }
+
+    public static function getLabel(): ?string
+    {
+        return trans('filament-invoices::messages.invoices.title');
+    }
+
     public static function getWidgets(): array
     {
         return [
@@ -60,9 +75,9 @@ class InvoiceResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('uuid')
                     ->unique(ignoreRecord: true)
-                    ->disabled(fn(Invoice $invoice)=> $invoice->exists)
-                    ->label(trans('filament-ecommerce::messages.orders.columns.uuid'))
-                    ->default(fn () => 'INV-'. \Illuminate\Support\Str::random(8))
+                    ->disabled(fn(Invoice $invoice) => $invoice->exists)
+                    ->label(trans('filament-invoices::messages.invoices.columns.uuid'))
+                    ->default(fn() => 'INV-' . \Illuminate\Support\Str::random(8))
                     ->required()
                     ->columnSpanFull()
                     ->maxLength(255),
@@ -71,41 +86,45 @@ class InvoiceResource extends Resource
                     'sm' => 1,
                     'lg' => 12,
                 ])->schema([
-                    Forms\Components\Section::make("Billed From")
+                    Forms\Components\Section::make(trans('filament-invoices::messages.invoices.sections.from_type.title'))
                         ->schema([
                             Forms\Components\Select::make('from_type')
+                                ->label(trans('filament-invoices::messages.invoices.sections.from_type.columns.from_type'))
                                 ->required()
                                 ->searchable()
                                 ->live()
                                 ->options(FilamentInvoices::getFrom()->pluck('label', 'model')->toArray())
                                 ->columnSpanFull(),
                             Forms\Components\Select::make('from_id')
+                                ->label(trans('filament-invoices::messages.invoices.sections.from_type.columns.from'))
                                 ->required()
                                 ->searchable()
                                 ->disabled(fn(Forms\Get $get) => !$get('from_type'))
-                                ->options(fn(Forms\Get $get) => $get('from_type')? $get('from_type')::query()->pluck(FilamentInvoices::getFrom()->where('model', $get('from_type'))->first()?->column??'name', 'id')->toArray() : [])
+                                ->options(fn(Forms\Get $get) => $get('from_type') ? $get('from_type')::query()->pluck(FilamentInvoices::getFrom()->where('model', $get('from_type'))->first()?->column ?? 'name', 'id')->toArray() : [])
                                 ->columnSpanFull(),
                         ])
                         ->columns(2)
                         ->columnSpan(6)
                         ->collapsible()
                         ->collapsed(fn($record) => $record),
-                    Forms\Components\Section::make("Billed To")
+                    Forms\Components\Section::make(trans('filament-invoices::messages.invoices.sections.billed_from.title'))
                         ->schema([
                             Forms\Components\Select::make('for_type')
+                                ->label(trans('filament-invoices::messages.invoices.sections.billed_from.columns.for_type'))
                                 ->searchable()
                                 ->required()
                                 ->live()
                                 ->options(FilamentInvoices::getFor()->pluck('label', 'model')->toArray())
                                 ->columnSpanFull(),
                             Forms\Components\Select::make('for_id')
+                                ->label(trans('filament-invoices::messages.invoices.sections.billed_from.columns.for'))
                                 ->required()
                                 ->searchable()
                                 ->live()
-                                ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set){
+                                ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set) {
                                     $forType = $get('for_type');
                                     $forId = $get('for_id');
-                                    if($forType && $forId){
+                                    if ($forType && $forId) {
                                         $for = $forType::find($forId);
                                         $set('name', $for->name);
                                         $set('phone', $for->phone);
@@ -113,42 +132,50 @@ class InvoiceResource extends Resource
                                     }
                                 })
                                 ->disabled(fn(Forms\Get $get) => !$get('for_type'))
-                                ->options(fn(Forms\Get $get) => $get('for_type') ? $get('for_type')::query()->pluck(FilamentInvoices::getFor()->where('model', $get('for_type'))->first()?->column??'name', 'id')->toArray() : [])
+                                ->options(fn(Forms\Get $get) => $get('for_type') ? $get('for_type')::query()->pluck(FilamentInvoices::getFor()->where('model', $get('for_type'))->first()?->column ?? 'name', 'id')->toArray() : [])
                                 ->columnSpanFull(),
                         ])
                         ->columns(2)
                         ->columnSpan(6)
                         ->collapsible()
                         ->collapsed(fn($record) => $record),
-                    Forms\Components\Section::make("Customer Data")
+                    Forms\Components\Section::make(trans('filament-invoices::messages.invoices.sections.customer_data.title'))
                         ->schema([
-                            Forms\Components\TextInput::make('name'),
-                            Forms\Components\TextInput::make('phone'),
-                            Forms\Components\Textarea::make('address'),
+                            Forms\Components\TextInput::make('name')
+                                ->label(trans('filament-invoices::messages.invoices.sections.customer_data.columns.name')),
+                            Forms\Components\TextInput::make('phone')
+                                ->label(trans('filament-invoices::messages.invoices.sections.customer_data.columns.phone')),
+                            Forms\Components\Textarea::make('address')
+                                ->label(trans('filament-invoices::messages.invoices.sections.customer_data.columns.address')),
                         ])
                         ->columns(1)
                         ->columnSpan(6)
                         ->collapsible()
                         ->collapsed(fn($record) => $record),
-                    Forms\Components\Section::make("Invoice Data")
+                    Forms\Components\Section::make(trans('filament-invoices::messages.invoices.sections.invoice_data.title'))
                         ->schema([
                             Forms\Components\DatePicker::make('date')
+                                ->label(trans('filament-invoices::messages.invoices.sections.invoice_data.columns.date'))
                                 ->required()
                                 ->default(Carbon::now()),
                             Forms\Components\DatePicker::make('due_date')
+                                ->label(trans('filament-invoices::messages.invoices.sections.invoice_data.columns.due_date'))
                                 ->required()
                                 ->default(Carbon::now()),
                             Forms\Components\Select::make('type')
+                                ->label(trans('filament-invoices::messages.invoices.sections.invoice_data.columns.type'))
                                 ->required()
                                 ->default('push')
                                 ->searchable()
                                 ->options($types->pluck('name', 'key')->toArray()),
                             Forms\Components\Select::make('status')
+                                ->label(trans('filament-invoices::messages.invoices.sections.invoice_data.columns.status'))
                                 ->required()
                                 ->default('draft')
                                 ->searchable()
                                 ->options($statues->pluck('name', 'key')->toArray()),
                             Forms\Components\Select::make('currency_id')
+                                ->label(trans('filament-invoices::messages.invoices.sections.invoice_data.columns.currency'))
                                 ->required()
                                 ->columnSpanFull()
                                 ->default(Currency::query()->where('iso', 'USD')->first()?->id)
@@ -166,36 +193,38 @@ class InvoiceResource extends Resource
                     ->collapsed(fn($record) => $record)
                     ->cloneable()
                     ->relationship('invoicesItems')
-                    ->label(trans('filament-ecommerce::messages.orders.columns.items'))
-                    ->itemLabel("Item")
+                    ->label(trans('filament-invoices::messages.invoices.columns.items'))
+                    ->itemLabel(trans('filament-invoices::messages.invoices.columns.item'))
                     ->schema([
                         Forms\Components\TextInput::make('item')
+                            ->label(trans('filament-invoices::messages.invoices.columns.item_name'))
                             ->columnSpan(4),
                         Forms\Components\TextInput::make('description')
+                            ->label(trans('filament-invoices::messages.invoices.columns.description'))
                             ->columnSpan(8),
                         Forms\Components\TextInput::make('qty')
                             ->live()
                             ->columnSpan(2)
-                            ->label(trans('filament-ecommerce::messages.orders.columns.qty'))
+                            ->label(trans('filament-invoices::messages.invoices.columns.qty'))
                             ->default(1)
                             ->numeric(),
                         Forms\Components\TextInput::make('price')
-                            ->label(trans('filament-ecommerce::messages.orders.columns.price'))
+                            ->label(trans('filament-invoices::messages.invoices.columns.price'))
                             ->columnSpan(3)
                             ->default(0)
                             ->numeric(),
                         Forms\Components\TextInput::make('discount')
-                            ->label(trans('filament-ecommerce::messages.orders.columns.discount'))
+                            ->label(trans('filament-invoices::messages.invoices.columns.discount'))
                             ->columnSpan(2)
                             ->default(0)
                             ->numeric(),
                         Forms\Components\TextInput::make('vat')
-                            ->label(trans('filament-ecommerce::messages.orders.columns.vat'))
+                            ->label(trans('filament-invoices::messages.invoices.columns.vat'))
                             ->columnSpan(2)
                             ->default(0)
                             ->numeric(),
                         Forms\Components\TextInput::make('total')
-                            ->label(trans('filament-ecommerce::messages.orders.columns.total'))
+                            ->label(trans('filament-invoices::messages.invoices.columns.total'))
                             ->columnSpan(3)
                             ->default(0)
                             ->numeric(),
@@ -207,15 +236,14 @@ class InvoiceResource extends Resource
                         $discount = 0;
                         $vat = 0;
                         $collectItems = [];
-                        foreach ($items as $invoiceItem){
-                            $getTotal = ((($invoiceItem['price']+$invoiceItem['vat'])-$invoiceItem['discount'])*$invoiceItem['qty']);
+                        foreach ($items as $invoiceItem) {
+                            $getTotal = ((($invoiceItem['price'] + $invoiceItem['vat']) - $invoiceItem['discount']) * $invoiceItem['qty']);
                             $total += $getTotal;
                             $invoiceItem['total'] = $getTotal;
-                            $discount += ($invoiceItem['discount']*$invoiceItem['qty']);
-                            $vat +=  ($invoiceItem['vat']*$invoiceItem['qty']);
+                            $discount += ($invoiceItem['discount'] * $invoiceItem['qty']);
+                            $vat +=  ($invoiceItem['vat'] * $invoiceItem['qty']);
 
                             $collectItems[] = $invoiceItem;
-
                         }
                         $set('total', $total);
                         $set('discount', $discount);
@@ -225,39 +253,39 @@ class InvoiceResource extends Resource
                     })
                     ->columns(12)
                     ->columnSpanFull(),
-                Forms\Components\Section::make(trans('filament-ecommerce::messages.orders.sections.totals'))
+                Forms\Components\Section::make(trans('filament-invoices::messages.invoices.sections.totals.title'))
                     ->schema([
                         Forms\Components\TextInput::make('shipping')
                             ->lazy()
                             ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set) {
                                 $items = $get('items');
                                 $total = 0;
-                                foreach ($items as $invoiceItem){
-                                    $total += ((($invoiceItem['price']+$invoiceItem['vat'])-$invoiceItem['discount'])*$invoiceItem['qty']);
+                                foreach ($items as $invoiceItem) {
+                                    $total += ((($invoiceItem['price'] + $invoiceItem['vat']) - $invoiceItem['discount']) * $invoiceItem['qty']);
                                 }
 
-                                $set('total', $total+(int)$get('shipping'));
+                                $set('total', $total + (int)$get('shipping'));
                             })
-                            ->label(trans('filament-ecommerce::messages.orders.columns.shipping'))
+                            ->label(trans('filament-invoices::messages.invoices.columns.shipping'))
                             ->numeric()
                             ->default(0),
                         Forms\Components\TextInput::make('vat')
                             ->disabled()
-                            ->label(trans('filament-ecommerce::messages.orders.columns.vat'))
+                            ->label(trans('filament-invoices::messages.invoices.columns.vat'))
                             ->numeric()
                             ->default(0),
                         Forms\Components\TextInput::make('discount')
                             ->disabled()
-                            ->label(trans('filament-ecommerce::messages.orders.columns.discount'))
+                            ->label(trans('filament-invoices::messages.invoices.columns.discount'))
                             ->numeric()
                             ->default(0),
                         Forms\Components\TextInput::make('total')
                             ->disabled()
-                            ->label(trans('filament-ecommerce::messages.orders.columns.total'))
+                            ->label(trans('filament-invoices::messages.invoices.columns.total'))
                             ->numeric()
                             ->default(0),
                         Forms\Components\Textarea::make('notes')
-                            ->label(trans('filament-ecommerce::messages.orders.columns.notes'))
+                            ->label(trans('filament-invoices::messages.invoices.columns.notes'))
                             ->columnSpanFull(),
                     ])->collapsible()->collapsed(fn($record) => $record),
             ]);
@@ -268,25 +296,24 @@ class InvoiceResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('uuid')
-                    ->label(trans('filament-ecommerce::messages.orders.columns.uuid'))
-                    ->description(fn($record) => $record->type . ' by ' . $record->user?->name)
-                    ->label('UUID')
+                    ->label(trans('filament-invoices::messages.invoices.columns.uuid'))
+                    ->description(fn($record) => $record->type . ' ' . trans('filament-invoices::messages.invoices.columns.by') . ' ' . $record->user?->name)
                     ->sortable()
                     ->searchable()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('for_id')
                     ->state(fn($record) => $record->for_type::find($record->for_id)?->name)
-                    ->description(fn($record) => 'From: '.$record->from_type::find($record->from_id)?->name)
-                    ->label(trans('filament-ecommerce::messages.orders.columns.account_id'))
+                    ->description(fn($record) => trans('filament-invoices::messages.invoices.columns.from') . ': ' . $record->from_type::find($record->from_id)?->name)
+                    ->label(trans('filament-invoices::messages.invoices.columns.account'))
                     ->sortable()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('date')
-                    ->label('Date')
+                    ->label(trans('filament-invoices::messages.invoices.columns.date'))
                     ->date('Y-m-d')
                     ->sortable()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('due_date')
-                    ->label('Due Date')
+                    ->label(trans('filament-invoices::messages.invoices.columns.due_date'))
                     ->tooltip(fn($record) => $record->due_date->isFuture() ? $record->due_date->diffForHumans() : ($record->due_date->isToday() ? 'Due Today!' : 'Over Due!'))
                     ->color(fn($record) => $record->due_date->isFuture() ? 'success' : ($record->due_date->isToday() ? 'warning' : 'danger'))
                     ->icon(fn($record) => $record->due_date->isFuture() ? 'heroicon-s-check-circle' : ($record->due_date->isToday() ? 'heroicon-s-exclamation-circle' : 'heroicon-s-x-circle'))
@@ -294,49 +321,49 @@ class InvoiceResource extends Resource
                     ->sortable()
                     ->toggleable(),
                 TypeColumn::make('status')
-                    ->label(trans('filament-ecommerce::messages.orders.columns.status'))
+                    ->label(trans('filament-invoices::messages.invoices.columns.status'))
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name')
-                    ->label(trans('filament-ecommerce::messages.orders.columns.name'))
+                    ->label(trans('filament-invoices::messages.invoices.columns.name'))
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->description(fn($record) => $record->phone)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('phone')
-                    ->label(trans('filament-ecommerce::messages.orders.columns.phone'))
+                    ->label(trans('filament-invoices::messages.invoices.columns.phone'))
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('address')
-                    ->label(trans('filament-ecommerce::messages.orders.columns.address'))
+                    ->label(trans('filament-invoices::messages.invoices.columns.address'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('shipping')
-                    ->label(trans('filament-ecommerce::messages.orders.columns.shipping'))
+                    ->label(trans('filament-invoices::messages.invoices.columns.shipping'))
                     ->money(locale: 'en', currency: (fn($record) => $record->currency?->iso))
                     ->color('warning')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('vat')
-                    ->label(trans('filament-ecommerce::messages.orders.columns.vat'))
-                    ->money(locale: 'en', currency:(fn($record) => $record->currency?->iso))
+                    ->label(trans('filament-invoices::messages.invoices.columns.vat'))
+                    ->money(locale: 'en', currency: (fn($record) => $record->currency?->iso))
                     ->color('warning')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('discount')
-                    ->label(trans('filament-ecommerce::messages.orders.columns.discount'))
+                    ->label(trans('filament-invoices::messages.invoices.columns.discount'))
                     ->money(locale: 'en', currency: (fn($record) => $record->currency?->iso))
                     ->color('danger')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('total')
-                    ->label(trans('filament-ecommerce::messages.orders.columns.total'))
+                    ->label(trans('filament-invoices::messages.invoices.columns.total'))
                     ->money(locale: 'en', currency: (fn($record) => $record->currency?->iso))
                     ->color('success')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('paid')
-                    ->label("Paid")
+                    ->label(trans('filament-invoices::messages.invoices.columns.paid'))
                     ->money(locale: 'en', currency: (fn($record) => $record->currency?->iso))
                     ->color('info')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label(trans('filament-ecommerce::messages.orders.columns.updated_at'))
+                    ->label(trans('filament-invoices::messages.invoices.columns.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -345,28 +372,27 @@ class InvoiceResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
                 Tables\Filters\SelectFilter::make('status')
                     ->options(Type::query()->where('for', 'invoices')->where('type', 'status')->pluck('name', 'key')->toArray())
-                    ->label('Status')
+                    ->label(trans('filament-invoices::messages.invoices.filters.status'))
                     ->searchable(),
                 Tables\Filters\SelectFilter::make('type')
                     ->options(Type::query()->where('for', 'invoices')->where('type', 'type')->pluck('name', 'key')->toArray())
-                    ->label('Type')
+                    ->label(trans('filament-invoices::messages.invoices.filters.type'))
                     ->searchable(),
                 Tables\Filters\Filter::make('due')
                     ->form([
                         Forms\Components\Toggle::make('overdue')
-                            ->label('Over Due'),
+                            ->label(trans('filament-invoices::messages.invoices.filters.due.columns.overdue')),
                         Forms\Components\Toggle::make('today')
-                            ->label('Today'),
+                            ->label(trans('filament-invoices::messages.invoices.filters.due.columns.today')),
                     ])
-                    ->label('Due Date')
+                    ->label(trans('filament-invoices::messages.invoices.filters.due.label'))
                     ->query(function (Builder $query, array $data) {
                         return $query->when($data['overdue'], function (Builder $query, $value) {
-                            if($value){
+                            if ($value) {
                                 $query->whereDate('due_date', '<', Carbon::now());
                             }
-
                         })->when($data['today'], function (Builder $query, $value) {
-                            if($value){
+                            if ($value) {
                                 $query->whereDate('due_date', Carbon::today());
                             }
                         });
@@ -377,21 +403,20 @@ class InvoiceResource extends Resource
                             ->searchable()
                             ->live()
                             ->options(FilamentInvoices::getFor()->pluck('label', 'model')->toArray())
-                            ->label('For Type'),
+                            ->label(trans('filament-invoices::messages.invoices.filters.for.columns.for_type')),
                         Forms\Components\Select::make('for_id')
                             ->searchable()
-                            ->options(fn(Forms\Get $get) => $get('for_type') ? $get('for_type')::query()->pluck(FilamentInvoices::getFor()->where('model', $get('for_type'))->first()?->column??'name', 'id')->toArray() : [])
-                            ->label('For Name'),
+                            ->options(fn(Forms\Get $get) => $get('for_type') ? $get('for_type')::query()->pluck(FilamentInvoices::getFor()->where('model', $get('for_type'))->first()?->column ?? 'name', 'id')->toArray() : [])
+                            ->label(trans('filament-invoices::messages.invoices.filters.for.columns.for_name')),
                     ])
-                    ->label('Filter By For')
+                    ->label(trans('filament-invoices::messages.invoices.filters.for.label'))
                     ->query(function (Builder $query, array $data) {
                         return $query->when($data['for_type'], function (Builder $query, $value) {
-                            if($value){
+                            if ($value) {
                                 $query->where('for_type', $value);
                             }
-
                         })->when($data['for_id'], function (Builder $query, $value) {
-                            if($value){
+                            if ($value) {
                                 $query->where('for_id', $value);
                             }
                         });
@@ -402,20 +427,20 @@ class InvoiceResource extends Resource
                             ->searchable()
                             ->live()
                             ->options(FilamentInvoices::getFor()->pluck('label', 'model')->toArray())
-                            ->label('From Type'),
+                            ->label(trans('filament-invoices::messages.invoices.filters.from.columns.from_type')),
                         Forms\Components\Select::make('from_id')
                             ->searchable()
-                            ->options(fn(Forms\Get $get) => $get('from_type') ? $get('from_type')::query()->pluck(FilamentInvoices::getFrom()->where('model', $get('from_type'))->first()?->column??'name', 'id')->toArray() : [])
-                            ->label('From Name'),
+                            ->options(fn(Forms\Get $get) => $get('from_type') ? $get('from_type')::query()->pluck(FilamentInvoices::getFrom()->where('model', $get('from_type'))->first()?->column ?? 'name', 'id')->toArray() : [])
+                            ->label(trans('filament-invoices::messages.invoices.filters.from.columns.from_name')),
                     ])
-                    ->label('Filter By From')
+                    ->label(trans('filament-invoices::messages.invoices.filters.from.label'))
                     ->query(function (Builder $query, array $data) {
                         return $query->when($data['from_type'], function (Builder $query, $value) {
-                            if($value){
+                            if ($value) {
                                 $query->where('from_type', $value);
                             }
                         })->when($data['from_id'], function (Builder $query, $value) {
-                            if($value){
+                            if ($value) {
                                 $query->where('from_id', $value);
                             }
                         });
@@ -436,15 +461,15 @@ class InvoiceResource extends Resource
                     ])
                     ->form([
                         Forms\Components\TextInput::make('total')
-                            ->label('Total')
+                            ->label(trans('filament-invoices::messages.invoices.actions.total'))
                             ->numeric()
                             ->disabled(),
                         Forms\Components\TextInput::make('paid')
-                            ->label('Paid')
+                            ->label(trans('filament-invoices::messages.invoices.actions.paid'))
                             ->numeric()
                             ->disabled(),
                         Forms\Components\TextInput::make('amount')
-                            ->label('Amount')
+                            ->label(trans('filament-invoices::messages.invoices.actions.amount'))
                             ->required()
                             ->numeric(),
                     ])
@@ -459,49 +484,57 @@ class InvoiceResource extends Resource
                         ]);
 
                         $record->invoiceLogs()->create([
-                            'log' => 'Paid '.number_format($data['amount'], 2).' '.$record->currency->iso . ' By: ' . auth()->user()->name,
+                            'log' => 'Paid ' . number_format($data['amount'], 2) . ' ' . $record->currency->iso . ' By: ' . auth()->user()->name,
                             'type' => 'payment',
                         ]);
 
-                        if($record->total === $record->paid){
+                        if ($record->total === $record->paid) {
                             $record->update([
                                 'status' => 'paid'
                             ]);
                         }
 
                         Notification::make()
-                            ->title('Invoice Paid')
-                            ->body('Invoice Paid Successfully')
+                            ->title(trans('filament-invoices::messages.invoices.actions.pay.notification.title'))
+                            ->body(trans('filament-invoices::messages.invoices.actions.pay.notification.body'))
                             ->success()
                             ->send();
                     })
                     ->icon('heroicon-s-credit-card')
-                    ->label('Pay For Invoice')
-                    ->modalHeading('Pay For Invoice')
-                    ->tooltip('Pay For Invoice'),
-                Tables\Actions\ViewAction::make()->iconButton()->tooltip('View Invoice'),
-                Tables\Actions\EditAction::make()->iconButton()->tooltip('Edit Invoice'),
+                    ->label(trans('filament-invoices::messages.invoices.actions.pay.label'))
+                    ->modalHeading(trans('filament-invoices::messages.invoices.actions.pay.label'))
+                    ->tooltip(trans('filament-invoices::messages.invoices.actions.pay.label')),
+                Tables\Actions\ViewAction::make()
+                    ->iconButton()
+                    ->tooltip(trans('filament-invoices::messages.invoices.actions.view_invoice')),
+                Tables\Actions\EditAction::make()
+                    ->iconButton()
+                    ->tooltip(trans('filament-invoices::messages.invoices.actions.edit_invoice')),
                 Tables\Actions\DeleteAction::make()
                     ->iconButton()
                     ->icon('heroicon-s-archive-box')
-                    ->label('Archive Invoice')
-                    ->modalHeading('Archive Invoice')
-                    ->tooltip('Archive Invoice'),
-                Tables\Actions\ForceDeleteAction::make()->iconButton()->tooltip('Delete Invoice Forever'),
-                Tables\Actions\RestoreAction::make()->iconButton()->tooltip('Restore Invoice'),
+                    ->label(trans('filament-invoices::messages.invoices.actions.archive_invoice'))
+                    ->modalHeading(trans('filament-invoices::messages.invoices.actions.archive_invoice'))
+                    ->tooltip(trans('filament-invoices::messages.invoices.actions.archive_invoice')),
+                Tables\Actions\ForceDeleteAction::make()
+                    ->iconButton()
+                    ->tooltip(trans('filament-invoices::messages.invoices.actions.delete_invoice_forever')),
+                Tables\Actions\RestoreAction::make()
+                    ->iconButton()
+                    ->tooltip(trans('filament-invoices::messages.invoices.actions.restore_invoice')),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\BulkAction::make('status')
-                        ->label('Change Status')
-                        ->tooltip('Change Status of Selected Invoices')
+                        ->label(trans('filament-invoices::messages.invoices.actions.status.label'))
+                        ->tooltip(trans('filament-invoices::messages.invoices.actions.status.tooltip'))
                         ->icon('heroicon-s-cursor-arrow-rays')
                         ->deselectRecordsAfterCompletion()
                         ->form([
                             Forms\Components\Select::make('status')
                                 ->searchable()
                                 ->options(Type::query()->where('for', 'invoices')->where('type', 'status')->pluck('name', 'key')->toArray())
-                                ->label('Status')
+                                ->label(trans('filament-invoices::messages.invoices.actions.status.title'))
                                 ->default('draft')
                                 ->required(),
                         ])
@@ -509,12 +542,11 @@ class InvoiceResource extends Resource
                             $records->each(fn($record) => $record->update(['status' => $data['status']]));
 
                             Notification::make()
-                                ->title('Status Changed')
-                                ->body('Status Changed Successfully')
+                                ->title(trans('filament-invoices::messages.invoices.actions.status.notification.title'))
+                                ->body(trans('filament-invoices::messages.invoices.actions.status.notification.body'))
                                 ->success()
                                 ->send();
-                        })
-                    ,
+                        }),
                     Tables\Actions\DeleteBulkAction::make(),
                     Tables\Actions\ForceDeleteBulkAction::make(),
                     Tables\Actions\RestoreBulkAction::make()
@@ -525,8 +557,8 @@ class InvoiceResource extends Resource
     public static function getRelations(): array
     {
         return [
-           RelationManagers\InvoiceLogManager::make(),
-           RelationManagers\InvoicePaymentsManager::make(),
+            RelationManagers\InvoiceLogManager::make(),
+            RelationManagers\InvoicePaymentsManager::make(),
         ];
     }
 

@@ -33,13 +33,13 @@ class ListInvoices extends ListRecords
             Actions\CreateAction::make(),
             Actions\Action::make('setting')
                 ->hiddenLabel()
-                ->tooltip('Invoices Status')
+                ->tooltip(trans('filament-invoices::messages.invoices.actions.invoices_status'))
                 ->icon('heroicon-o-cog')
                 ->color('info')
                 ->action(function (){
                     return redirect()->to(InvoiceStatus::getUrl());
                 })
-                ->label('Invoices Status'),
+                ->label(trans('filament-invoices::messages.invoices.actions.invoices_status')),
         ];
     }
 }

@@ -22,7 +22,7 @@ class ViewInvoice extends ViewRecord
             Actions\EditAction::make()->icon('heroicon-o-pencil'),
             Actions\DeleteAction::make()->icon('heroicon-o-trash'),
             Actions\Action::make('print')
-                ->label('Print')
+                ->label(trans('filament-invoices::messages.invoices.actions.print'))
                 ->icon('heroicon-o-printer')
                 ->color('info')
                 ->action(function (){
