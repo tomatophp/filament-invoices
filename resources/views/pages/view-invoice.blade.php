@@ -8,7 +8,7 @@
                     </div>
                     <div class="flex flex-col">
                         <div class="text-sm text-gray-400  mt-3">
-                            {{__('Bill From')}}:
+                            {{trans('filament-invoices::messages.invoices.view.bill_from')}}:
                         </div>
                         <div class="text-lg font-bold">
                             {{$this->getRecord()->billedFrom->name}}
@@ -29,7 +29,7 @@
                     <div class="mt-6">
                         <div class="mt-4">
                             <div class="text-sm text-gray-400">
-                                {{__('Bill To')}}:
+                                {{trans('filament-invoices::messages.invoices.view.bill_to')}}:
                             </div>
                             <div class="text-lg font-bold">
                                 {{$this->getRecord()->billedFor?->name}}
@@ -62,7 +62,7 @@
                     <div class="flex justify-end font-bold">
                         <div>
                             <div>
-                                <h1 class="text-3xl">{{__('INVOICE')}}</h1>
+                                <h1 class="text-3xl uppercase">{{trans('filament-invoices::messages.invoices.view.invoice')}}</h1>
                             </div>
                             <div>
                                 #{{$this->getRecord()->uuid}}
@@ -73,19 +73,19 @@
                         <div class="flex flex-col justify-end">
                             <div>
                                 <div class="flex justify-between gap-4">
-                                    <div class="text-gray-400">{{__('Issue Date')}} : </div>
+                                    <div class="text-gray-400">{{trans('filament-invoices::messages.invoices.view.issue_date')}} : </div>
                                     <div>{{$this->getRecord()->created_at->toDateString()}}</div>
                                 </div>
                                 <div class="flex justify-between gap-4">
-                                    <div class="text-gray-400">{{__('Due Date')}} : </div>
+                                    <div class="text-gray-400">{{trans('filament-invoices::messages.invoices.view.due_date')}} : </div>
                                     <div>{{$this->getRecord()->due_date->toDateString()}}</div>
                                 </div>
                                 <div class="flex justify-between gap-4">
-                                    <div class="text-gray-400">{{__('Status')}} : </div>
+                                    <div class="text-gray-400">{{trans('filament-invoices::messages.invoices.view.status')}} : </div>
                                     <div>{{type_of($this->getRecord()->status, 'invoices', 'status')->name}}</div>
                                 </div>
                                 <div class="flex justify-between gap-4">
-                                    <div class="text-gray-400">{{__('Type')}} : </div>
+                                    <div class="text-gray-400">{{trans('filament-invoices::messages.invoices.view.type')}} : </div>
                                     <div>{{type_of($this->getRecord()->type, 'invoices', 'type')->name}}</div>
                                 </div>
                             </div>
@@ -99,10 +99,10 @@
                     <div class="flex flex-col">
                         <div class="flex justify-between  px-4 py-2 border-gray-200 dark:border-gray-700 font-bold border-b text-start">
                             <div class="p-2 w-full">
-                                {{__('Item')}}
+                                {{trans('filament-invoices::messages.invoices.view.item')}}
                             </div>
                             <div class="p-2 w-full">
-                                {{__('Total')}}
+                                {{trans('filament-invoices::messages.invoices.view.total')}}
                             </div>
                         </div>
                     </div>
@@ -135,7 +135,7 @@
                                         <div class="flex flex-col mt-2">
                                             <div>
                                                 <div class="flex justify-between">
-                                                    <span class="text-sm text-gray-400 w-full">PRICE:</span>
+                                                    <span class="text-sm text-gray-400 uppercase w-full">{{trans('filament-invoices::messages.invoices.view.price')}}:</span>
                                                     <span class="w-full">
                                                     {{ number_format($item->price, 2) }}<small class="text-md font-normal">{{ $this->getRecord()->currency?->iso }} </small>
                                                 </span>
@@ -143,7 +143,7 @@
                                             </div>
                                             <div>
                                                 <div class="flex justify-between">
-                                                    <span class="text-sm text-gray-400 w-full">VAT:</span>
+                                                    <span class="text-sm text-gray-400 uppercase w-full">{{trans('filament-invoices::messages.invoices.view.vat')}}:</span>
                                                     <span class="w-full">
                                                     {{ number_format($item->tax, 2) }}<small class="text-md font-normal">{{ $this->getRecord()->currency?->iso }}</small>
                                                 </span>
@@ -151,7 +151,7 @@
                                             </div>
                                             <div>
                                                 <div class="flex justify-between">
-                                                    <span class="text-sm text-gray-400 w-full">DISCOUNT:</span>
+                                                    <span class="text-sm text-gray-400 uppercase w-full">{{trans('filament-invoices::messages.invoices.view.discount')}}:</span>
                                                     <span class="w-full">
                                                     {{ number_format($item->discount, 2) }}<small class="text-md font-normal">{{ $this->getRecord()->currency?->iso }}</small>
                                                 </span>
@@ -159,7 +159,7 @@
                                             </div>
                                             <div>
                                                 <div class="flex justify-between">
-                                                    <span class="text-sm text-gray-400 w-full">QTY:</span>
+                                                    <span class="text-sm text-gray-400 uppercase w-full">{{trans('filament-invoices::messages.invoices.view.qty')}}:</span>
                                                     <span class="w-full">
                                                     {{ $item->qty }}
                                                 </span>
@@ -167,7 +167,7 @@
                                             </div>
                                             <div>
                                                 <div class="flex justify-between">
-                                                    <span class="text-sm text-gray-400 w-full">TOTAL:</span>
+                                                    <span class="text-sm text-gray-400 uppercase w-full">{{trans('filament-invoices::messages.invoices.view.total')}}:</span>
                                                     <span class="w-full font-bold">
                                                         {{ number_format($item->total, 2) }}<small class="text-md font-normal">{{ $this->getRecord()->currency?->iso }}</small>
                                                     </span>
@@ -186,29 +186,29 @@
                         @if($this->getRecord()->is_bank_transfer)
                             <div>
                                 <div class="mb-2 text-xl">
-                                    {{__('Bank Account')}}
+                                    {{trans('filament-invoices::messages.invoices.view.bank_account')}}
                                 </div>
                                 <div class="text-sm flex flex-col">
                                     <div>
-                                        <span clas="text-gray-400">{{__('Name')}}</span> : <span class="font-bold">{{ $this->getRecord()->bank_name }}</span>
+                                        <span clas="text-gray-400">{{trans('filament-invoices::messages.invoices.view.name')}}</span> : <span class="font-bold">{{ $this->getRecord()->bank_name }}</span>
                                     </div>
                                     <div>
-                                        <span clas="text-gray-400">{{__('Address')}}</span> : <span class="font-bold">{{ $this->getRecord()->bank_address }}, {{ $this->getRecord()->bank_city }}, {{ $this->getRecord()->bank_country}}</span>
+                                        <span clas="text-gray-400">{{trans('filament-invoices::messages.invoices.view.address')}}</span> : <span class="font-bold">{{ $this->getRecord()->bank_address }}, {{ $this->getRecord()->bank_city }}, {{ $this->getRecord()->bank_country}}</span>
                                     </div>
                                     <div>
-                                        <span clas="text-gray-400">{{__('Branch')}}</span> : <span class="font-bold">{{ $this->getRecord()->bank_branch }}</span>
+                                        <span clas="text-gray-400">{{trans('filament-invoices::messages.invoices.view.branch')}}</span> : <span class="font-bold">{{ $this->getRecord()->bank_branch }}</span>
                                     </div>
                                     <div>
-                                        <span clas="text-gray-400">{{__('SWIFT')}}</span> : <span class="font-bold">{{ $this->getRecord()->bank_swift }}</span>
+                                        <span clas="text-gray-400">{{trans('filament-invoices::messages.invoices.view.swift')}}</span> : <span class="font-bold">{{ $this->getRecord()->bank_swift }}</span>
                                     </div>
                                     <div>
-                                        <span clas="text-gray-400">{{__('Account')}}</span> : <span class="font-bold">{{ $this->getRecord()->bank_account }}</span>
+                                        <span clas="text-gray-400">{{trans('filament-invoices::messages.invoices.view.account')}}</span> : <span class="font-bold">{{ $this->getRecord()->bank_account }}</span>
                                     </div>
                                     <div>
-                                        <span clas="text-gray-400">{{__('Owner')}}</span> : <span class="font-bold">{{ $this->getRecord()->bank_account_owner }}</span>
+                                        <span clas="text-gray-400">{{trans('filament-invoices::messages.invoices.view.owner')}}</span> : <span class="font-bold">{{ $this->getRecord()->bank_account_owner }}</span>
                                     </div>
                                     <div>
-                                        <span clas="text-gray-400">{{__('IBAN')}}</span> : <span class="font-bold">{{ $this->getRecord()->bank_iban }}</span>
+                                        <span clas="text-gray-400">{{trans('filament-invoices::messages.invoices.view.iban')}}</span> : <span class="font-bold">{{ $this->getRecord()->bank_iban }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -216,7 +216,7 @@
 
                         <div>
                             <div class="mb-2 text-xl">
-                                {{__('Signature')}}
+                                {{trans('filament-invoices::messages.invoices.view.signature')}}
                             </div>
                             <div class="text-sm text-gray-400">
                                 <div>
@@ -234,7 +234,7 @@
                     <div class="flex flex-col gap-2 mt-4  w-full">
                         <div class="flex justify-between">
                             <div class="font-bold">
-                                {{__('Sub Total')}}
+                                {{trans('filament-invoices::messages.invoices.view.subtotal')}}
                             </div>
                             <div>
                                 {{ number_format(($this->getRecord()->total + $this->getRecord()->discount) - ($this->getRecord()->vat + $this->getRecord()->shipping), 2) }}<small class="text-md font-normal">{{ $this->getRecord()->currency?->iso }}</small>
@@ -242,7 +242,7 @@
                         </div>
                         <div class="flex justify-between">
                             <div class="font-bold">
-                                {{__('Tax')}}
+                                {{trans('filament-invoices::messages.invoices.view.tax')}}
                             </div>
                             <div>
                                 {{ number_format($this->getRecord()->vat, 2) }}<small class="text-md font-normal">{{ $this->getRecord()->currency?->iso }}</small>
@@ -250,7 +250,7 @@
                         </div>
                         <div class="flex justify-between">
                             <div class="font-bold">
-                                {{__('Discount')}}
+                                {{trans('filament-invoices::messages.invoices.view.discount')}}
                             </div>
                             <div>
                                 {{ number_format($this->getRecord()->discount, 2) }}<small class="text-md font-normal">{{ $this->getRecord()->currency?->iso }}</small>
@@ -258,7 +258,7 @@
                         </div>
                         <div class="flex justify-between border-b border-gray-200 dark:border-gray-700 pb-4">
                             <div class="font-bold">
-                                {{__('Paid')}}
+                                {{trans('filament-invoices::messages.invoices.view.paid')}}
                             </div>
                             <div>
                                 {{ number_format($this->getRecord()->paid, 2) }}<small class="text-md font-normal">{{ $this->getRecord()->currency?->iso }}</small>
@@ -266,7 +266,7 @@
                         </div>
                         <div class="flex justify-between text-xl font-bold">
                             <div>
-                                {{__('Balance Due')}}
+                                {{trans('filament-invoices::messages.invoices.view.balance_due')}}
                             </div>
                             <div>
                                 {{ number_format($this->getRecord()->total-$this->getRecord()->paid, 2) }}<small class="text-md font-normal">{{ $this->getRecord()->currency?->iso }}</small>
@@ -279,7 +279,7 @@
                     <div class="border-b border-gray-200 dark:border-gray-700 my-4"></div>
                     <div>
                         <div class="mb-2 text-xl">
-                            {{__('Notes')}}
+                            {{trans('filament-invoices::messages.invoices.view.notes')}}
                         </div>
                         <div class="text-sm text-gray-400">
                             {!! $this->getRecord()->notes !!}
