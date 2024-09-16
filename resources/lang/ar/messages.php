@@ -3,6 +3,7 @@
 return [
     'invoices' => [
         'title' => 'الفواتير',
+        'group' => 'المدفوعات',
         'single' => 'فاتورة',
         'widgets' => [
             'count' => 'إجمالي الفواتير',

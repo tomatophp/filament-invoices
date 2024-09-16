@@ -3,6 +3,7 @@
 return [
     'invoices' => [
         'title' => 'Invoices',
+        'group' => 'Payments',
         'single' => 'Invoice',
         'widgets' => [
             'count' => 'Total Invoices',

@@ -48,6 +48,11 @@ class InvoiceResource extends Resource
     {
         return trans('filament-invoices::messages.invoices.title');
     }
+    
+    public static function getNavigationGroup(): ?string
+    {
+        return trans('filament-invoices::messages.invoices.group');
+    }
 
     public static function getLabel(): ?string
     {

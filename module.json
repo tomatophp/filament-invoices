@@ -1,0 +1,29 @@
+{
+    "name": "FilamentInvoices",
+    "alias": "filament-invoices",
+    "description": {
+        "ar": "قم باصدار وإدارة الفواتير الخاصة بالعملاء مع تقسيم الدفعات ودعم عملات متعددة",
+        "en": "Generate and manage your invoices / payments using multi currencies and multi types in FilamentPHP",
+        "gr": "Generate and manage your invoices / payments using multi currencies and multi types in FilamentPHP",
+        "sp": "Generate and manage your invoices / payments using multi currencies and multi types in FilamentPHP"
+    },
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "TomatoPHP\\FilamentInvoices\\FilamentInvoicesServiceProvider"
+    ],
+    "files": [],
+    "title": {
+        "ar": "الفواتير",
+        "en": "Invoices Manager",
+        "gr": "Invoices Manager",
+        "sp": "Invoices Manager"
+    },
+    "color": "#cc1448",
+    "icon": "heroicon-c-receipt-percent",
+    "placeholder": "https://raw.githubusercontent.com/tomatophp/filament-invoices/master/arts/3x1io-tomato-invoices.jpg",
+    "type": "plugin",
+    "version": "v1.0.3",
+    "github" : "https://github.com/tomatophp/filament-invoices",
+    "docs" : "https://github.com/tomatophp/filament-invoices"
+}

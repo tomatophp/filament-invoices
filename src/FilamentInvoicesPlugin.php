@@ -4,11 +4,14 @@ namespace TomatoPHP\FilamentInvoices;
 
 use Filament\Contracts\Plugin;
 use Filament\Panel;
+use Nwidart\Modules\Module;
 use TomatoPHP\FilamentInvoices\Filament\Resources\InvoiceResource;
 
 
 class FilamentInvoicesPlugin implements Plugin
 {
+    private bool $isActive = false;
+
     public function getId(): string
     {
         return 'filament-invoices';
@@ -16,11 +19,23 @@ class FilamentInvoicesPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
-        $panel->resources([
-            InvoiceResource::class
-        ])->pages([
-            InvoiceResource\Pages\InvoiceStatus::class
-        ]);
+        if(class_exists(Module::class)){
+            if(\Nwidart\Modules\Facades\Module::find('FilamentInvoices')->isEnabled()){
+                $this->isActive = true;
+            }
+        }
+        else {
+            $this->isActive = true;
+        }
+
+        if($this->isActive) {
+
+            $panel->resources([
+                InvoiceResource::class
+            ])->pages([
+                InvoiceResource\Pages\InvoiceStatus::class
+            ]);
+        }
     }
 
     public function boot(Panel $panel): void

@@ -5,6 +5,7 @@
 return [
     'invoices' => [
         'title' => 'Rechnungen',
+        'group' => 'Zahlungen',
         'single' => 'Rechnung',
         'widgets' => [
             'count' => 'Gesamtanzahl Rechnungen',
