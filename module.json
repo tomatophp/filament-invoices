@@ -23,7 +23,7 @@
     "icon": "heroicon-c-receipt-percent",
     "placeholder": "https://raw.githubusercontent.com/tomatophp/filament-invoices/master/arts/3x1io-tomato-invoices.jpg",
     "type": "plugin",
-    "version": "v1.0.3",
+    "version": "v1.0.4",
     "github" : "https://github.com/tomatophp/filament-invoices",
     "docs" : "https://github.com/tomatophp/filament-invoices"
 }
