@@ -61,6 +61,8 @@ to start use this plugin you need to allow 2 types of users or table to fill the
 
 ```php
 use TomatoPHP\FilamentInvoices\Facades\FilamentInvoices;
+use TomatoPHP\FilamentInvoices\Services\Contracts\InvoiceFor;
+use TomatoPHP\FilamentInvoices\Services\Contracts\InvoiceFrom;
 
 public function boot()
 {
