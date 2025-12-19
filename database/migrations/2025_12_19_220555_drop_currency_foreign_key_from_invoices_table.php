@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('invoices', function (Blueprint $table) {
-            if (Schema::hasIndex('invoices', 'invoices_currency_id_foreign')){
+            if (Schema::hasIndex('invoices', 'invoices_currency_id_foreign')) {
                 $table->dropForeign(['currency_id']);
             }
         });
