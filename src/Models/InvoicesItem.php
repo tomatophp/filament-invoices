@@ -5,11 +5,11 @@ namespace TomatoPHP\FilamentInvoices\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property integer $id
- * @property integer $invoice_id
+ * @property int $id
+ * @property int $invoice_id
  * @property string $type
  * @property string $item_type
- * @property integer $item_id
+ * @property int $item_id
  * @property string $item
  * @property string $description
  * @property string $note
@@ -20,8 +20,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property float $total
  * @property float $returned_qty
  * @property float $returned
- * @property boolean $is_free
- * @property boolean $is_returned
+ * @property bool $is_free
+ * @property bool $is_returned
  * @property mixed $options
  * @property string $created_at
  * @property string $updated_at
@@ -51,14 +51,15 @@ class InvoicesItem extends Model
         'is_returned',
         'options',
         'created_at',
-        'updated_at'
+        'updated_at',
     ];
 
     protected $casts = [
         'is_free' => 'bool',
         'is_returned' => 'bool',
-        'options' => 'json'
+        'options' => 'json',
     ];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

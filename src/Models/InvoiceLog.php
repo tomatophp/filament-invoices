@@ -5,8 +5,8 @@ namespace TomatoPHP\FilamentInvoices\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property integer $id
- * @property integer $invoice_id
+ * @property int $id
+ * @property int $invoice_id
  * @property json $log
  * @property string $type
  * @property string $created_at
@@ -23,7 +23,7 @@ class InvoiceLog extends Model
         'log',
         'type',
         'created_at',
-        'updated_at'
+        'updated_at',
     ];
 
     protected $casts = [

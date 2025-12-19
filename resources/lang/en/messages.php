@@ -8,7 +8,7 @@ return [
         'widgets' => [
             'count' => 'Total Invoices',
             'paid' => 'Total Paid Money',
-            'due' => 'Total Due'
+            'due' => 'Total Due',
         ],
         'columns' => [
             'uuid' => 'Invoice ID',
@@ -71,7 +71,7 @@ return [
                 ],
             ],
             'totals' => [
-                'title' => 'Totals'
+                'title' => 'Totals',
             ],
         ],
         'filters' => [
@@ -82,21 +82,21 @@ return [
                 'columns' => [
                     'overdue' => 'Over Due',
                     'today' => 'Today',
-                ]
+                ],
             ],
             'for' => [
                 'label' => 'Filter By For',
                 'columns' => [
                     'for_type' => 'For Type',
                     'for_name' => 'For Name',
-                ]
+                ],
             ],
             'from' => [
                 'label' => 'Filter By From',
                 'columns' => [
                     'from_type' => 'From Type',
                     'from_name' => 'From Name',
-                ]
+                ],
             ],
         ],
         'actions' => [
@@ -110,12 +110,50 @@ return [
             'restore_invoice' => 'Restore Invoice',
             'invoices_status' => 'Invoices Status',
             'print' => 'Print',
+            'export_pdf' => [
+                'label' => 'Export PDF',
+                'template' => 'Select Template',
+            ],
+            'send_email' => [
+                'label' => 'Send Email',
+                'to' => 'Recipient Email',
+                'template' => 'Select Template',
+                'subject' => 'Email Subject',
+                'body' => 'Email Body',
+                'cc' => 'CC Email',
+                'bcc' => 'BCC Email',
+                'notification' => [
+                    'title' => 'Email Sent',
+                    'body' => 'Invoice email has been sent successfully',
+                ],
+            ],
+            'bulk_export_pdf' => [
+                'label' => 'Export PDFs',
+            ],
+            'bulk_send_email' => [
+                'label' => 'Send Emails',
+                'notification' => [
+                    'title' => 'Emails Sent',
+                    'body' => ':sent emails sent successfully, :skipped skipped (no email found)',
+                ],
+            ],
+            'print_pay_slip' => [
+                'label' => 'Print Pay Slip',
+            ],
+            'email_sent' => [
+                'title' => 'Email Sent',
+                'body' => 'Invoice email has been sent successfully',
+            ],
+            'email_failed' => [
+                'title' => 'Email Failed',
+                'body' => 'Failed to send invoice email',
+            ],
             'pay' => [
                 'label' => 'Pay For Invoice',
                 'notification' => [
                     'title' => 'Invoice Paid',
-                    'body' => 'Invoice Paid Successfully'
-                ]
+                    'body' => 'Invoice Paid Successfully',
+                ],
             ],
             'status' => [
                 'title' => 'Status',
@@ -127,8 +165,8 @@ return [
                 ],
                 'notification' => [
                     'title' => 'Status Changed',
-                    'body' => 'Status Changed Successfully'
-                ]
+                    'body' => 'Status Changed Successfully',
+                ],
             ],
         ],
         'logs' => [
@@ -176,9 +214,47 @@ return [
             'paid' => 'paid',
             'balance_due' => 'Balance Due',
             'notes' => 'Notes',
-        ]
+        ],
     ],
     'settings' => [
+        'title' => 'Invoice Settings',
+        'description' => 'Configure invoice defaults, templates, and email settings',
+        'group' => 'Invoices',
+        'sections' => [
+            'company' => 'Company Information',
+            'company_description' => 'Your company details that appear on invoices',
+            'defaults' => 'Default Settings',
+            'defaults_description' => 'Default values for new invoices',
+            'email' => 'Email Configuration',
+            'email_description' => 'Configure email settings for sending invoices',
+            'pdf' => 'PDF Options',
+            'pdf_description' => 'Configure PDF generation settings',
+        ],
+        'fields' => [
+            'company_name' => 'Company Name',
+            'company_logo' => 'Company Logo',
+            'company_address' => 'Company Address',
+            'company_phone' => 'Phone Number',
+            'company_email' => 'Email Address',
+            'company_tax_id' => 'Tax ID / VAT Number',
+            'default_currency' => 'Default Currency',
+            'default_tax_rate' => 'Default Tax Rate',
+            'default_payment_terms' => 'Default Payment Terms',
+            'days' => 'days',
+            'email_from_name' => 'From Name',
+            'email_from_email' => 'From Email',
+            'email_subject_template' => 'Email Subject Template',
+            'email_body_template' => 'Email Body Template',
+            'email_placeholders' => 'Available placeholders: {uuid}, {company_name}, {customer_name}, {total}, {currency}, {due_date}',
+            'email_cc' => 'CC Email',
+            'email_cc_help' => 'Optional: Copy to this email',
+            'email_bcc' => 'BCC Email',
+            'email_bcc_help' => 'Optional: Blind copy to this email',
+            'default_template' => 'Default Template',
+            'paper_size' => 'Paper Size',
+            'include_terms' => 'Include Terms & Conditions',
+            'terms_text' => 'Terms & Conditions Text',
+        ],
         'status' => [
             'title' => 'Order Status Settings',
             'description' => 'Change your order status colors and text',
@@ -192,7 +268,14 @@ return [
                 'color' => 'Color',
                 'language' => 'Language',
                 'value' => 'Value',
-            ]
+            ],
         ],
+    ],
+    'templates' => [
+        'classic' => 'Classic',
+        'modern' => 'Modern',
+        'minimal' => 'Minimal',
+        'professional' => 'Professional',
+        'creative' => 'Creative',
     ],
 ];

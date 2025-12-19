@@ -3,14 +3,16 @@
 namespace TomatoPHP\FilamentInvoices\Models;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use TomatoPHP\FilamentInvoices\Database\Factories\InvoiceFactory;
 use TomatoPHP\FilamentLocations\Models\Currency;
 use TomatoPHP\FilamentTypes\Models\Type;
 
 /**
- * @property integer $id
- * @property integer $from_id
+ * @property int $id
+ * @property int $from_id
  * @property string $bank_account
  * @property string $bank_account_owner
  * @property string $bank_iban
@@ -21,14 +23,14 @@ use TomatoPHP\FilamentTypes\Models\Type;
  * @property string $shipping
  * @property string $bank_city
  * @property string $bank_country
- * @property boolean $is_bank_transfer
+ * @property bool $is_bank_transfer
  * @property string $from_type
- * @property integer $currency_id
- * @property integer $for_id
+ * @property int $currency_id
+ * @property int $for_id
  * @property string $for_type
- * @property integer $order_id
- * @property integer $user_id
- * @property integer $category_id
+ * @property int $order_id
+ * @property int $user_id
+ * @property int $category_id
  * @property string $uuid
  * @property string $name
  * @property string $phone
@@ -41,9 +43,9 @@ use TomatoPHP\FilamentTypes\Models\Type;
  * @property float $paid
  * @property string $date
  * @property string $due_date
- * @property boolean $is_activated
- * @property boolean $is_offer
- * @property boolean $send_email
+ * @property bool $is_activated
+ * @property bool $is_offer
+ * @property bool $send_email
  * @property string $notes
  * @property string $created_at
  * @property string $updated_at
@@ -58,7 +60,13 @@ use TomatoPHP\FilamentTypes\Models\Type;
  */
 class Invoice extends Model
 {
+    use HasFactory;
     use SoftDeletes;
+
+    protected static function newFactory(): InvoiceFactory
+    {
+        return InvoiceFactory::new();
+    }
 
     /**
      * @var array
@@ -100,7 +108,7 @@ class Invoice extends Model
         'shipping',
         'notes',
         'created_at',
-        'updated_at'
+        'updated_at',
     ];
 
     protected $casts = [
@@ -116,6 +124,7 @@ class Invoice extends Model
     {
         return $this->belongsTo(Currency::class, 'currency_id', 'id');
     }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -124,27 +133,19 @@ class Invoice extends Model
         return $this->hasMany(InvoiceMeta::class);
     }
 
-    /**
-     * @param string $key
-     * @param string|array|object|null $value
-     * @return Model|string|array|null
-     */
-    public function meta(string $key, string|array|object|null $value=null): Model|string|null|array
+    public function meta(string $key, string | array | object | null $value = null): Model | string | null | array
     {
-        if($value!==null){
-            if($value === 'null'){
+        if ($value !== null) {
+            if ($value === 'null') {
                 return $this->invoiceMetas()->updateOrCreate(['key' => $key], ['value' => null]);
-            }
-            else {
+            } else {
                 return $this->invoiceMetas()->updateOrCreate(['key' => $key], ['value' => $value]);
             }
-        }
-        else {
+        } else {
             $meta = $this->invoiceMetas()->where('key', $key)->first();
-            if($meta){
+            if ($meta) {
                 return $meta->value;
-            }
-            else {
+            } else {
                 return $this->invoiceMetas()->updateOrCreate(['key' => $key], ['value' => null]);
             }
         }

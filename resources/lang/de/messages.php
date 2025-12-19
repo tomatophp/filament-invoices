@@ -10,7 +10,7 @@ return [
         'widgets' => [
             'count' => 'Gesamtanzahl Rechnungen',
             'paid' => 'Gesamtbetrag bezahlt',
-            'due' => 'Gesamtbetrag fällig'
+            'due' => 'Gesamtbetrag fällig',
         ],
         'columns' => [
             'uuid' => 'Rechnungsnummer',
@@ -73,7 +73,7 @@ return [
                 ],
             ],
             'totals' => [
-                'title' => 'Summen'
+                'title' => 'Summen',
             ],
         ],
         'filters' => [
@@ -84,21 +84,21 @@ return [
                 'columns' => [
                     'overdue' => 'Überfällig',
                     'today' => 'Heute',
-                ]
+                ],
             ],
             'for' => [
                 'label' => 'Filtern nach Für',
                 'columns' => [
                     'for_type' => 'Für Typ',
                     'for_name' => 'Für Name',
-                ]
+                ],
             ],
             'from' => [
                 'label' => 'Filtern nach Von',
                 'columns' => [
                     'from_type' => 'Von Typ',
                     'from_name' => 'Von Name',
-                ]
+                ],
             ],
         ],
         'actions' => [
@@ -116,8 +116,8 @@ return [
                 'label' => 'Bezahlen',
                 'notification' => [
                     'title' => 'Rechnung bezahlt',
-                    'body' => 'Rechnung erfolgreich bezahlt'
-                ]
+                    'body' => 'Rechnung erfolgreich bezahlt',
+                ],
             ],
             'status' => [
                 'title' => 'Status',
@@ -129,8 +129,8 @@ return [
                 ],
                 'notification' => [
                     'title' => 'Status geändert',
-                    'body' => 'Status erfolgreich geändert'
-                ]
+                    'body' => 'Status erfolgreich geändert',
+                ],
             ],
         ],
         'logs' => [
@@ -178,7 +178,7 @@ return [
             'paid' => 'bezahlt',
             'balance_due' => 'Fälliger Betrag',
             'notes' => 'Notizen',
-        ]
+        ],
     ],
     'settings' => [
         'status' => [
@@ -194,7 +194,7 @@ return [
                 'color' => 'Farbe',
                 'language' => 'Sprache',
                 'value' => 'Wert',
-            ]
+            ],
         ],
     ],
 ];

@@ -1,7 +1,7 @@
 ---
 name: Invoices Manager
-slug: 3x1io-tomato-invoices
-author_slug: 3x1io
+slug: fadymondy-tomato-invoices
+author_slug: fadymondy
 categories: [developer-tool]
 description: Generate and manage your invoices / payments using multi currencies and multi types in FilamentPHP
 discord_url: 
@@ -9,6 +9,6 @@ docs_url: https://raw.githubusercontent.com/tomatophp/filament-invoices/master/R
 github_repository: tomatophp/filament-invoices
 has_dark_theme: true
 has_translations: true
-versions: [3]
+versions: [3,4]
 publish_date: 2024-08-21
 ---

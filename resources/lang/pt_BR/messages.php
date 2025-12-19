@@ -8,7 +8,7 @@ return [
         'widgets' => [
             'count' => 'Total de Faturas',
             'paid' => 'Total Pago',
-            'due' => 'Total Devido'
+            'due' => 'Total Devido',
         ],
         'columns' => [
             'uuid' => 'ID da Fatura',
@@ -71,7 +71,7 @@ return [
                 ],
             ],
             'totals' => [
-                'title' => 'Totais'
+                'title' => 'Totais',
             ],
         ],
         'filters' => [
@@ -82,21 +82,21 @@ return [
                 'columns' => [
                     'overdue' => 'Atrasado',
                     'today' => 'Hoje',
-                ]
+                ],
             ],
             'for' => [
                 'label' => 'Filtrar por Destinatário',
                 'columns' => [
                     'for_type' => 'Tipo de Destinatário',
                     'for_name' => 'Nome do Destinatário',
-                ]
+                ],
             ],
             'from' => [
                 'label' => 'Filtrar por Remetente',
                 'columns' => [
                     'from_type' => 'Tipo de Remetente',
                     'from_name' => 'Nome do Remetente',
-                ]
+                ],
             ],
         ],
         'actions' => [
@@ -114,8 +114,8 @@ return [
                 'label' => 'Pagar Fatura',
                 'notification' => [
                     'title' => 'Fatura Paga',
-                    'body' => 'Fatura paga com sucesso'
-                ]
+                    'body' => 'Fatura paga com sucesso',
+                ],
             ],
             'status' => [
                 'title' => 'Status',
@@ -127,8 +127,8 @@ return [
                 ],
                 'notification' => [
                     'title' => 'Status Alterado',
-                    'body' => 'Status alterado com sucesso'
-                ]
+                    'body' => 'Status alterado com sucesso',
+                ],
             ],
         ],
         'logs' => [
@@ -176,7 +176,7 @@ return [
             'paid' => 'Pago',
             'balance_due' => 'Saldo Devido',
             'notes' => 'Observações',
-        ]
+        ],
     ],
     'settings' => [
         'status' => [
@@ -192,7 +192,7 @@ return [
                 'color' => 'Cor',
                 'language' => 'Idioma',
                 'value' => 'Valor',
-            ]
+            ],
         ],
     ],
 ];

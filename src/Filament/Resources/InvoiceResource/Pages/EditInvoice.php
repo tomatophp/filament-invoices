@@ -2,9 +2,9 @@
 
 namespace TomatoPHP\FilamentInvoices\Filament\Resources\InvoiceResource\Pages;
 
-use TomatoPHP\FilamentInvoices\Filament\Resources\InvoiceResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
+use TomatoPHP\FilamentInvoices\Filament\Resources\InvoiceResource;
 
 class EditInvoice extends EditRecord
 {
@@ -32,8 +32,8 @@ class EditInvoice extends EditRecord
         $this->getRecord()->update($data);
 
         $this->getRecord()->invoiceLogs()->create([
-            'log' => "Invoice Updated By: " . auth()->user()->name,
-            'type' => 'updated'
+            'log' => 'Invoice Updated By: ' . auth()->user()->name,
+            'type' => 'updated',
         ]);
     }
 }

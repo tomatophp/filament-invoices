@@ -2,8 +2,6 @@
 
 namespace TomatoPHP\FilamentInvoices\Traits;
 
-use TomatoPHP\FilamentInvoices\Facades\FilamentInvoices;
-
 trait BilledFor
 {
     public function invoices()

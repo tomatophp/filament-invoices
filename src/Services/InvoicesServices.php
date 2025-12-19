@@ -10,28 +10,27 @@ use TomatoPHP\FilamentTypes\Models\Type;
 class InvoicesServices
 {
     public array $from = [];
+
     public array $for = [];
 
-    public function registerFrom(array|InvoiceFrom $from): void
+    public function registerFrom(array | InvoiceFrom $from): void
     {
-        if(is_array($from)) {
+        if (is_array($from)) {
             foreach ($from as $from) {
                 $this->registerFrom($from);
             }
-        }
-        else {
+        } else {
             $this->from[] = $from;
         }
     }
 
-    public function registerFor(array|InvoiceFor $for): void
+    public function registerFor(array | InvoiceFor $for): void
     {
-        if(is_array($for)) {
+        if (is_array($for)) {
             foreach ($for as $for) {
                 $this->registerFor($for);
             }
-        }
-        else {
+        } else {
             $this->for[] = $for;
         }
     }
@@ -46,12 +45,10 @@ class InvoicesServices
         return collect($this->for);
     }
 
-
     public function create(): CreateInvoice
     {
-        return new CreateInvoice();
+        return new CreateInvoice;
     }
-
 
     public function loadTypes()
     {
@@ -64,7 +61,7 @@ class InvoicesServices
                 ],
                 'key' => 'draft',
                 'icon' => 'heroicon-c-document',
-                'color' => '#cf1919'
+                'color' => '#cf1919',
             ],
             [
                 'type' => 'status',
@@ -74,7 +71,7 @@ class InvoicesServices
                 ],
                 'key' => 'sent',
                 'icon' => 'heroicon-c-forward',
-                'color' => '#49d941'
+                'color' => '#49d941',
             ],
             [
                 'type' => 'status',
@@ -84,7 +81,7 @@ class InvoicesServices
                 ],
                 'key' => 'cancelled',
                 'icon' => 'heroicon-c-x-circle',
-                'color' => '#d9d9d9'
+                'color' => '#d9d9d9',
             ],
             [
                 'type' => 'status',
@@ -94,7 +91,7 @@ class InvoicesServices
                 ],
                 'key' => 'paid',
                 'icon' => 'heroicon-c-currency-dollar',
-                'color' => '#0f2ed4'
+                'color' => '#0f2ed4',
             ],
             [
                 'type' => 'status',
@@ -104,7 +101,7 @@ class InvoicesServices
                 ],
                 'key' => 'overdue',
                 'icon' => 'heroicon-c-clock',
-                'color' => '#ccd611'
+                'color' => '#ccd611',
             ],
             [
                 'type' => 'type',
@@ -114,7 +111,7 @@ class InvoicesServices
                 ],
                 'key' => 'push',
                 'icon' => 'heroicon-c-archive-box-arrow-down',
-                'color' => '#b910e3'
+                'color' => '#b910e3',
             ],
             [
                 'type' => 'type',
@@ -124,7 +121,7 @@ class InvoicesServices
                 ],
                 'key' => 'sale',
                 'icon' => 'heroicon-c-arrow-trending-up',
-                'color' => '#e809d8'
+                'color' => '#e809d8',
             ],
             [
                 'type' => 'type',
@@ -134,17 +131,17 @@ class InvoicesServices
                 ],
                 'key' => 'estimate',
                 'icon' => 'heroicon-c-arrow-down-on-square-stack',
-                'color' => '#1ae0a5'
+                'color' => '#1ae0a5',
             ],
         ];
 
-        foreach ($types as $type){
+        foreach ($types as $type) {
             $exists = Type::query()
                 ->where('for', 'invoices')
                 ->where('type', $type['type'])
                 ->where('key', $type['key'])
                 ->first();
-            if(!$exists){
+            if (! $exists) {
                 $type['for'] = 'invoices';
                 $type['type'] = $type['type'];
                 $exists = Type::create($type);

@@ -29,7 +29,6 @@ class FilamentInvoicesInstall extends Command
         parent::__construct();
     }
 
-
     /**
      * Execute the console command.
      *
@@ -39,8 +38,8 @@ class FilamentInvoicesInstall extends Command
     {
         $this->info('Publish Vendor Assets');
 
-        $this->artisanCommand(["migrate"]);
-        $this->artisanCommand(["optimize:clear"]);
+        $this->artisanCommand(['migrate']);
+        $this->artisanCommand(['optimize:clear']);
 
         FilamentInvoices::loadTypes();
 

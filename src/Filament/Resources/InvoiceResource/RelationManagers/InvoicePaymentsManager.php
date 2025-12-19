@@ -2,14 +2,14 @@
 
 namespace TomatoPHP\FilamentInvoices\Filament\Resources\InvoiceResource\RelationManagers;
 
-use Filament\Forms;
-use Filament\Forms\Form;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Filament\Actions;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use TomatoPHP\FilamentInvoices\Settings\InvoiceSettings;
 
 class InvoicePaymentsManager extends RelationManager
 {
@@ -22,17 +22,11 @@ class InvoicePaymentsManager extends RelationManager
         return trans('filament-invoices::messages.invoices.payments.title');
     }
 
-    /**
-     * @return string|null
-     */
     public static function getLabel(): ?string
     {
         return trans('filament-invoices::messages.invoices.payments.title');
     }
 
-    /**
-     * @return string|null
-     */
     public static function getModelLabel(): ?string
     {
         return trans('filament-invoices::messages.invoices.payments.single');
@@ -54,17 +48,44 @@ class InvoicePaymentsManager extends RelationManager
                 Tables\Columns\TextColumn::make('created_at')
                     ->label(trans('filament-invoices::messages.invoices.payments.columns.created_at'))
                     ->dateTime()
-                    ->sortable()
+                    ->sortable(),
             ])
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                Actions\Action::make('print_pay_slip')
+                    ->iconButton()
+                    ->icon('heroicon-o-printer')
+                    ->color('success')
+                    ->label(trans('filament-invoices::messages.invoices.actions.print_pay_slip.label'))
+                    ->tooltip(trans('filament-invoices::messages.invoices.actions.print_pay_slip.label'))
+                    ->action(function ($record) {
+                        $invoice = $this->getOwnerRecord();
+                        $settings = app(InvoiceSettings::class);
+
+                        $html = view('filament-invoices::templates.pay-slip', [
+                            'invoice' => $invoice,
+                            'payment' => $record,
+                            'settings' => $settings,
+                        ])->render();
+
+                        $pdf = Pdf::loadHTML($html);
+                        $pdf->setPaper('a5', 'portrait');
+
+                        $filename = sprintf('PaySlip-%s-%s.pdf', $invoice->uuid, $record->id);
+
+                        return response()->streamDownload(
+                            fn () => print ($pdf->output()),
+                            $filename,
+                            ['Content-Type' => 'application/pdf']
+                        );
+                    }),
+                Actions\EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                Actions\BulkActionGroup::make([
+                    Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -73,15 +94,6 @@ class InvoicePaymentsManager extends RelationManager
     {
         return [
             //
-        ];
-    }
-
-    public static function getPages(): array
-    {
-        return [
-            'index' => Pages\ListInvoiceLogs::route('/'),
-            'create' => Pages\CreateInvoiceLog::route('/create'),
-            'edit' => Pages\EditInvoiceLog::route('/{record}/edit'),
         ];
     }
 }
