@@ -8,6 +8,14 @@
 
 Generate and manage your invoices / payments using multi currencies and multi types in FilamentPHP
 
+## Version Compatibility
+
+| Plugin | Filament | Laravel | PHP |
+|--------|----------|---------|-----|
+| 5.x    | 5.x      | 12.x - 13.x | 8.2+ |
+| 4.x    | 4.x      | 11.x - 12.x | 8.2+ |
+| 2.x    | 3.x      | 10.x - 11.x | 8.1+ |
+
 ## Features
 
 - [x] Generate Invoices
@@ -29,15 +37,12 @@ Generate and manage your invoices / payments using multi currencies and multi ty
 
 ## Screenshots
 
-![Home](https://raw.githubusercontent.com/tomatophp/filament-invoices/master/arts/home.png)
-![Create](https://raw.githubusercontent.com/tomatophp/filament-invoices/master/arts/create.png)
-![Edit](https://raw.githubusercontent.com/tomatophp/filament-invoices/master/arts/edit.png)
-![View](https://raw.githubusercontent.com/tomatophp/filament-invoices/master/arts/view.png)
-![Print](https://raw.githubusercontent.com/tomatophp/filament-invoices/master/arts/print.png)
-![Logs](https://raw.githubusercontent.com/tomatophp/filament-invoices/master/arts/logs.png)
-![Status](https://raw.githubusercontent.com/tomatophp/filament-invoices/master/arts/status.png)
-![Payments](https://raw.githubusercontent.com/tomatophp/filament-invoices/master/arts/payments.png)
-![Payment Amount](https://raw.githubusercontent.com/tomatophp/filament-invoices/master/arts/payment-amount.png)
+![Invoices](https://raw.githubusercontent.com/tomatophp/filament-invoices/master/arts/invoices-light.png)
+![Invoices Dark](https://raw.githubusercontent.com/tomatophp/filament-invoices/master/arts/invoices-dark.png)
+![View Invoice](https://raw.githubusercontent.com/tomatophp/filament-invoices/master/arts/invoice-view-light.png)
+![View Invoice Dark](https://raw.githubusercontent.com/tomatophp/filament-invoices/master/arts/invoice-view-dark.png)
+![Create Invoice](https://raw.githubusercontent.com/tomatophp/filament-invoices/master/arts/invoice-create-light.png)
+![Create Invoice Dark](https://raw.githubusercontent.com/tomatophp/filament-invoices/master/arts/invoice-create-dark.png)
 
 ## Installation
 

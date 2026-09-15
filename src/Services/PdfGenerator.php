@@ -4,6 +4,7 @@ namespace TomatoPHP\FilamentInvoices\Services;
 
 use Barryvdh\DomPDF\Facade\Pdf;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
+use TomatoPHP\FilamentInvoices\Contracts\InvoiceTemplateInterface;
 use TomatoPHP\FilamentInvoices\Models\Invoice;
 use TomatoPHP\FilamentInvoices\Services\Templates\TemplateFactory;
 use TomatoPHP\FilamentInvoices\Settings\InvoiceSettings;
@@ -80,7 +81,7 @@ class PdfGenerator
     /**
      * Get the template instance.
      */
-    protected function getTemplate(?string $templateName = null): \TomatoPHP\FilamentInvoices\Contracts\InvoiceTemplateInterface
+    protected function getTemplate(?string $templateName = null): InvoiceTemplateInterface
     {
         $templateName = $templateName ?? $this->settings->default_template ?? 'classic';
 

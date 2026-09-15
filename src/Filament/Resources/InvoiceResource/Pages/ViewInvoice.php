@@ -4,6 +4,7 @@ namespace TomatoPHP\FilamentInvoices\Filament\Resources\InvoiceResource\Pages;
 
 use Filament\Actions;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
@@ -39,7 +40,7 @@ class ViewInvoice extends ViewRecord
                 ->label(trans('filament-invoices::messages.invoices.actions.export_pdf.label'))
                 ->icon('heroicon-o-document-arrow-down')
                 ->color('success')
-                ->form([
+                ->schema([
                     Select::make('template')
                         ->label(trans('filament-invoices::messages.invoices.actions.export_pdf.template'))
                         ->options(TemplateFactory::getOptions())
@@ -65,7 +66,7 @@ class ViewInvoice extends ViewRecord
                 ->label(trans('filament-invoices::messages.invoices.actions.send_email.label'))
                 ->icon('heroicon-o-envelope')
                 ->color('warning')
-                ->form([
+                ->schema([
                     TextInput::make('recipient_email')
                         ->label(trans('filament-invoices::messages.invoices.actions.send_email.to'))
                         ->email()
@@ -75,7 +76,7 @@ class ViewInvoice extends ViewRecord
                         ->label(trans('filament-invoices::messages.invoices.actions.send_email.subject'))
                         ->default($settings->email_subject_template ?? 'Invoice #{uuid} from {company_name}')
                         ->helperText(trans('filament-invoices::messages.settings.fields.email_placeholders')),
-                    \Filament\Forms\Components\Textarea::make('body')
+                    Textarea::make('body')
                         ->label(trans('filament-invoices::messages.invoices.actions.send_email.body'))
                         ->default($settings->email_body_template ?? '')
                         ->rows(5)

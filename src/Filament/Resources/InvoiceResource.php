@@ -16,6 +16,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use TomatoPHP\FilamentInvoices\Facades\FilamentInvoices;
 use TomatoPHP\FilamentInvoices\Filament\Resources\InvoiceResource\Pages;
 use TomatoPHP\FilamentInvoices\Filament\Resources\InvoiceResource\RelationManagers;
@@ -79,7 +80,7 @@ class InvoiceResource extends Resource
                     ->unique(ignoreRecord: true)
                     ->disabled(fn ($record) => $record?->exists)
                     ->label(trans('filament-invoices::messages.invoices.columns.uuid'))
-                    ->default(fn () => 'INV-' . \Illuminate\Support\Str::random(8))
+                    ->default(fn () => 'INV-' . Str::random(8))
                     ->required()
                     ->columnSpanFull()
                     ->maxLength(255),
@@ -253,11 +254,11 @@ class InvoiceResource extends Resource
                         $vat = 0;
                         $collectItems = [];
                         foreach ($items as $invoiceItem) {
-                            $getTotal = ((($invoiceItem['price'] + $invoiceItem['vat']) - $invoiceItem['discount']) * $invoiceItem['qty']);
+                            $getTotal = ((((float) ($invoiceItem['price'] ?? 0) + (float) ($invoiceItem['vat'] ?? 0)) - (float) ($invoiceItem['discount'] ?? 0)) * (float) ($invoiceItem['qty'] ?? 0));
                             $total += $getTotal;
                             $invoiceItem['total'] = $getTotal;
-                            $discount += ($invoiceItem['discount'] * $invoiceItem['qty']);
-                            $vat += ($invoiceItem['vat'] * $invoiceItem['qty']);
+                            $discount += ((float) ($invoiceItem['discount'] ?? 0) * (float) ($invoiceItem['qty'] ?? 0));
+                            $vat += ((float) ($invoiceItem['vat'] ?? 0) * (float) ($invoiceItem['qty'] ?? 0));
 
                             $collectItems[] = $invoiceItem;
                         }
@@ -277,7 +278,7 @@ class InvoiceResource extends Resource
                                 $items = $get('items');
                                 $total = 0;
                                 foreach ($items as $invoiceItem) {
-                                    $total += ((($invoiceItem['price'] + $invoiceItem['vat']) - $invoiceItem['discount']) * $invoiceItem['qty']);
+                                    $total += ((((float) ($invoiceItem['price'] ?? 0) + (float) ($invoiceItem['vat'] ?? 0)) - (float) ($invoiceItem['discount'] ?? 0)) * (float) ($invoiceItem['qty'] ?? 0));
                                 }
 
                                 $set('total', $total + (int) $get('shipping'));
@@ -474,7 +475,7 @@ class InvoiceResource extends Resource
                         'paid' => $record->paid,
                         'amount' => $record->total - $record->paid,
                     ])
-                    ->form([
+                    ->schema([
                         Forms\Components\TextInput::make('total')
                             ->label(trans('filament-invoices::messages.invoices.actions.total'))
                             ->numeric()
@@ -499,7 +500,7 @@ class InvoiceResource extends Resource
                         ]);
 
                         $record->invoiceLogs()->create([
-                            'log' => 'Paid ' . number_format($data['amount'], 2) . ' ' . $record->currency->iso . ' By: ' . auth()->user()->name,
+                            'log' => 'Paid ' . number_format($data['amount'], 2) . ' ' . $record->currency?->iso . ' By: ' . auth()->user()->name,
                             'type' => 'payment',
                         ]);
 
@@ -525,7 +526,7 @@ class InvoiceResource extends Resource
                     ->icon('heroicon-o-document-arrow-down')
                     ->label(trans('filament-invoices::messages.invoices.actions.export_pdf.label'))
                     ->tooltip(trans('filament-invoices::messages.invoices.actions.export_pdf.label'))
-                    ->form([
+                    ->schema([
                         Forms\Components\Select::make('template')
                             ->label(trans('filament-invoices::messages.invoices.actions.export_pdf.template'))
                             ->options(fn () => TemplateFactory::getOptions())
@@ -549,7 +550,7 @@ class InvoiceResource extends Resource
                     ->icon('heroicon-o-envelope')
                     ->label(trans('filament-invoices::messages.invoices.actions.send_email.label'))
                     ->tooltip(trans('filament-invoices::messages.invoices.actions.send_email.label'))
-                    ->form(function () {
+                    ->schema(function () {
                         $settings = app(InvoiceSettings::class);
 
                         return [
@@ -623,7 +624,7 @@ class InvoiceResource extends Resource
                         ->tooltip(trans('filament-invoices::messages.invoices.actions.status.tooltip'))
                         ->icon('heroicon-s-cursor-arrow-rays')
                         ->deselectRecordsAfterCompletion()
-                        ->form([
+                        ->schema([
                             Forms\Components\Select::make('status')
                                 ->searchable()
                                 ->options(Type::query()->where('for', 'invoices')->where('type', 'status')->pluck('name', 'key')->toArray())
@@ -644,7 +645,7 @@ class InvoiceResource extends Resource
                         ->label(trans('filament-invoices::messages.invoices.actions.bulk_export_pdf.label'))
                         ->icon('heroicon-o-document-arrow-down')
                         ->deselectRecordsAfterCompletion()
-                        ->form([
+                        ->schema([
                             Forms\Components\Select::make('template')
                                 ->label(trans('filament-invoices::messages.invoices.actions.export_pdf.template'))
                                 ->options(fn () => TemplateFactory::getOptions())
@@ -680,7 +681,7 @@ class InvoiceResource extends Resource
                         ->label(trans('filament-invoices::messages.invoices.actions.bulk_send_email.label'))
                         ->icon('heroicon-o-envelope')
                         ->deselectRecordsAfterCompletion()
-                        ->form(function () {
+                        ->schema(function () {
                             $settings = app(InvoiceSettings::class);
 
                             return [

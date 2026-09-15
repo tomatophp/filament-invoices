@@ -2,8 +2,11 @@
 
 namespace TomatoPHP\FilamentInvoices;
 
+use Filament\Facades\Filament;
 use Illuminate\Support\ServiceProvider;
+use TomatoPHP\FilamentInvoices\Console\FilamentInvoicesInstall;
 use TomatoPHP\FilamentInvoices\Pages\InvoiceSettingsPage;
+use TomatoPHP\FilamentInvoices\Services\InvoicesServices;
 use TomatoPHP\FilamentInvoices\Services\Templates\ClassicTemplate;
 use TomatoPHP\FilamentInvoices\Services\Templates\CreativeTemplate;
 use TomatoPHP\FilamentInvoices\Services\Templates\MinimalTemplate;
@@ -19,7 +22,7 @@ class FilamentInvoicesServiceProvider extends ServiceProvider
     {
         // Register generate command
         $this->commands([
-            \TomatoPHP\FilamentInvoices\Console\FilamentInvoicesInstall::class,
+            FilamentInvoicesInstall::class,
         ]);
 
         // Register Config file
@@ -66,7 +69,7 @@ class FilamentInvoicesServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->app->bind('filament-invoices', function () {
-            return new \TomatoPHP\FilamentInvoices\Services\InvoicesServices;
+            return new InvoicesServices;
         });
 
         // Register built-in invoice templates
@@ -95,7 +98,7 @@ class FilamentInvoicesServiceProvider extends ServiceProvider
         $shouldRegister = false;
 
         try {
-            $panels = \Filament\Facades\Filament::getPanels();
+            $panels = Filament::getPanels();
             foreach ($panels as $panel) {
                 if ($panel->hasPlugin('filament-invoices')) {
                     $plugin = $panel->getPlugin('filament-invoices');

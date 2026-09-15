@@ -4,6 +4,7 @@ namespace TomatoPHP\FilamentInvoices\Pages;
 
 use BackedEnum;
 use Filament\Actions\Action;
+use Filament\Facades\Filament;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -35,7 +36,7 @@ class InvoiceSettingsPage extends SettingsPage
 
     protected function getActions(): array
     {
-        $tenant = \Filament\Facades\Filament::getTenant();
+        $tenant = Filament::getTenant();
         if ($tenant) {
             return [
                 Action::make('back')

@@ -63,10 +63,10 @@ class InvoiceStatus extends Page implements HasTable
                     ->label(trans('filament-invoices::messages.settings.status.columns.status')),
             ])
             ->recordActions([
-                \Filament\Actions\Action::make('edit')
+                Action::make('edit')
                     ->label(trans('filament-invoices::messages.settings.status.action.edit'))
                     ->tooltip(trans('filament-invoices::messages.settings.status.action.edit'))
-                    ->form([
+                    ->schema([
                         Translation::make('name')
                             ->label(trans('filament-invoices::messages.settings.status.columns.value')),
                         IconPicker::make('icon')->label(trans('filament-invoices::messages.settings.status.columns.icon')),

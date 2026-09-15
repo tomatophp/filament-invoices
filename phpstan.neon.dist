@@ -1,0 +1,10 @@
+parameters:
+    paths:
+        - src
+    level: 0
+    # Type coverage (pulled in by pest-plugin-type-coverage) is a metric, not a level-0 correctness check.
+    type_coverage:
+        return_type: 0
+        param_type: 0
+        property_type: 0
+        constant_type: 0

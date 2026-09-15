@@ -4,6 +4,7 @@ namespace TomatoPHP\FilamentInvoices\Services;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 use TomatoPHP\FilamentInvoices\Models\Invoice;
 use TomatoPHP\FilamentInvoices\Services\Contracts\InvoiceItem;
 use TomatoPHP\FilamentLocations\Models\Currency;
@@ -144,10 +145,10 @@ class CreateInvoice
 
     public function save()
     {
-        $uuid = 'INV-' . \Illuminate\Support\Str::random(8);
+        $uuid = 'INV-' . Str::random(8);
         $checkUUID = Invoice::query()->where('uuid', $uuid)->first();
         while ($checkUUID) {
-            $uuid = 'INV-' . \Illuminate\Support\Str::random(8);
+            $uuid = 'INV-' . Str::random(8);
             $checkUUID = Invoice::query()->where('uuid', $uuid)->first();
         }
         $invoice = new Invoice;

@@ -249,19 +249,19 @@
                                 {{trans('filament-invoices::messages.invoices.view.bill_from')}}:
                             </div>
                             <div class="invoice-name">
-                                {{$this->getRecord()->billedFrom->name}}
+                                {{$this->getRecord()->billedFrom?->name}}
                             </div>
                             <div class="invoice-text">
-                                {{$this->getRecord()->billedFrom->phone}}
+                                {{$this->getRecord()->billedFrom?->phone}}
                             </div>
                             <div class="invoice-text">
-                                {{$this->getRecord()->billedFrom->address}}
+                                {{$this->getRecord()->billedFrom?->address}}
                             </div>
                             <div class="invoice-text">
-                                {{$this->getRecord()->billedFrom->zip}} {{$this->getRecord()->billedFrom->city}}
+                                {{$this->getRecord()->billedFrom?->zip}} {{$this->getRecord()->billedFrom?->city}}
                             </div>
                             <div class="invoice-text">
-                                {{$this->getRecord()->billedFrom->country?->name}}
+                                {{$this->getRecord()->billedFrom?->country?->name}}
                             </div>
                         </div>
                         <div class="invoice-bill-to">
@@ -279,7 +279,9 @@
                                     {{$this->getRecord()->billedFor?->phone}}
                                 </div>
                                 @php
-                                    $address = $this->getRecord()->billedFor?->locations()->first();
+                                    // Only billed models with a locations() relation (e.g. filament-accounts) have an address.
+                                    $billedFor = $this->getRecord()->billedFor;
+                                    $address = ($billedFor && method_exists($billedFor, 'locations')) ? $billedFor->locations()->first() : null;
                                 @endphp
                                 @if($address)
                                     <div class="invoice-text">

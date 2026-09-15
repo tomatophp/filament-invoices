@@ -16,7 +16,9 @@ class InvoiceItem
 
     public float $price = 0;
 
-    public static function make(string $item)
+    final public function __construct() {}
+
+    public static function make(string $item): static
     {
         return (new static)->item($item);
     }

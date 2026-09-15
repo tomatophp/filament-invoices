@@ -10,7 +10,9 @@ class InvoiceFor
 
     public string $column = 'name';
 
-    public static function make(string $model)
+    final public function __construct() {}
+
+    public static function make(string $model): static
     {
         return (new static)->model($model);
     }

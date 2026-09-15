@@ -12,20 +12,29 @@ use Filament\Infolists\InfolistsServiceProvider;
 use Filament\Notifications\NotificationsServiceProvider;
 use Filament\Panel;
 use Filament\Schemas\SchemasServiceProvider;
+use Filament\SpatieLaravelSettingsPluginServiceProvider;
 use Filament\Support\SupportServiceProvider;
 use Filament\Tables\TablesServiceProvider;
 use Filament\Widgets\WidgetsServiceProvider;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\Attributes\WithEnv;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 use RyanChandler\BladeCaptureDirective\BladeCaptureDirectiveServiceProvider;
 use Spatie\LaravelSettings\LaravelSettingsServiceProvider;
+use Spatie\LaravelSettings\SettingsRepositories\DatabaseSettingsRepository;
+use TomatoPHP\FilamentIcons\FilamentIconsServiceProvider;
 use TomatoPHP\FilamentInvoices\FilamentInvoicesServiceProvider;
 use TomatoPHP\FilamentInvoices\Settings\InvoiceSettings;
+use TomatoPHP\FilamentInvoices\Tests\Models\User;
+use TomatoPHP\FilamentLocations\FilamentLocationsServiceProvider;
 use TomatoPHP\FilamentSettingsHub\FilamentSettingsHubServiceProvider;
+use TomatoPHP\FilamentTranslationComponent\FilamentTranslationComponentServiceProvider;
+use TomatoPHP\FilamentTypes\FilamentTypesServiceProvider;
 
 #[WithEnv('DB_CONNECTION', 'testing')]
 abstract class TestCase extends BaseTestCase
@@ -53,7 +62,12 @@ abstract class TestCase extends BaseTestCase
             TablesServiceProvider::class,
             WidgetsServiceProvider::class,
             LaravelSettingsServiceProvider::class,
+            SpatieLaravelSettingsPluginServiceProvider::class,
             FilamentSettingsHubServiceProvider::class,
+            FilamentIconsServiceProvider::class,
+            FilamentTranslationComponentServiceProvider::class,
+            FilamentTypesServiceProvider::class,
+            FilamentLocationsServiceProvider::class,
             FilamentInvoicesServiceProvider::class,
             AdminPanelProvider::class,
         ];
@@ -67,6 +81,8 @@ abstract class TestCase extends BaseTestCase
     {
         tap($app['config'], function (Repository $config) {
             $config->set('database.default', 'testing');
+            $config->set('auth.providers.users.model', User::class);
+            $config->set('filament-icons.cache', false);
             $config->set('database.connections.testing', [
                 'driver' => 'sqlite',
                 'database' => ':memory:',
@@ -82,7 +98,7 @@ abstract class TestCase extends BaseTestCase
             $config->set('settings.default_repository', 'database');
             $config->set('settings.repositories', [
                 'database' => [
-                    'type' => \Spatie\LaravelSettings\SettingsRepositories\DatabaseSettingsRepository::class,
+                    'type' => DatabaseSettingsRepository::class,
                     'model' => null,
                     'table' => 'settings',
                     'connection' => null,
@@ -104,8 +120,8 @@ abstract class TestCase extends BaseTestCase
         $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
 
         // Create settings table if not exists
-        if (! \Illuminate\Support\Facades\Schema::hasTable('settings')) {
-            \Illuminate\Support\Facades\Schema::create('settings', function ($table) {
+        if (! Schema::hasTable('settings')) {
+            Schema::create('settings', function ($table) {
                 $table->id();
                 $table->string('group');
                 $table->string('name');
@@ -145,7 +161,7 @@ abstract class TestCase extends BaseTestCase
         ];
 
         foreach ($defaults as $name => $value) {
-            \Illuminate\Support\Facades\DB::table('settings')->updateOrInsert(
+            DB::table('settings')->updateOrInsert(
                 ['group' => 'invoices', 'name' => $name],
                 ['payload' => json_encode($value), 'locked' => false, 'created_at' => now(), 'updated_at' => now()]
             );
