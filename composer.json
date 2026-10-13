@@ -2,6 +2,7 @@
     "name": "tomatophp/filament-invoices",
     "type": "library",
     "description": "Generate and manage your invoices / payments using multi currencies and multi types in FilamentPHP",
+    "homepage": "https://tomatophp.com/en/plugins/filament-invoices",
     "keywords": [
         "php",
         "laravel",
